@@ -1,0 +1,31 @@
+{
+  "name": "Remax",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-native": "0.59.9",
+    "react-native-gesture-handler": "^1.3.0",
+    "react-native-modal-picker": "0.0.16",
+    "react-native-picker-module": "^1.1.1",
+    "react-native-snap-carousel": "^3.8.0",
+    "react-native-swiper": "^1.5.14",
+    "react-navigation": "^3.11.0",
+    "realm": "^3.0.0-beta.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.5",
+    "@babel/runtime": "7.4.5",
+    "babel-jest": "24.8.0",
+    "jest": "24.8.0",
+    "metro-react-native-babel-preset": "0.54.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
