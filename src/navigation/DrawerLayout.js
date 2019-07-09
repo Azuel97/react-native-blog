@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {NavigationActions} from 'react-navigation';
-import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native'
+import { Text, View, StyleSheet, Image } from 'react-native'
 
 export default class DrawerLayout extends Component {
 
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         width: '90%'
     },
     screenTextStyle:{
-        fontSize: 20,
+        fontSize: 18,
         marginLeft: 20, 
         textAlign: 'center'
     },

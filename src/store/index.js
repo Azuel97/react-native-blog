@@ -74,6 +74,28 @@ let repository = new Realm({
                 image: 'string'
             }
         },
+        {
+            name: 'ArticoloEvidenza',
+            primaryKey : 'id',
+            properties: {
+                id: 'int',
+                title: 'string',
+                abstract: 'string',
+                image: 'string',
+                category: 'string'
+            }
+        },
+        {
+            name: 'UltimiArticoli',
+            primaryKey : 'id',
+            properties: {
+                id: 'int',
+                title: 'string',
+                image: 'string',
+                publish_date: 'string',
+                category: 'string'
+            }
+        },
     ],
     schemaVersion: 14,
 });

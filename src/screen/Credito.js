@@ -121,7 +121,7 @@ export default class Credito extends Component {
                   <Image style={{width:340 , height: 180}}
                       source={{uri: `${item.image}`}}/>
                   <View style={{width:340}}>
-                    <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>Mercato Immobiliare                     <Text style={{color:'grey'}}>{item.publish_date}</Text></Text>
+                    <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>Credito                                                <Text style={{color:'grey'}}>{item.publish_date}</Text></Text>
                     <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} numberOfLines={2}>{item.title}</Text>
                     <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{item.abstract}</Text>
                   </View>
