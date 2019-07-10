@@ -47,8 +47,6 @@ let ArticoliService = {
         idTrovati = []
         ultimiTreArticoli = []
         for(let p of articolo){
-            //console.log('Lunghezza : ' + articolo.length)
-            // Creo un oggetto che contiene i campi che mi interessano
             idTrovati.push({id: p.id,titolo: p.titolo,categoria: p.categoria,image: p.image})
         }
         for(let i=0; i<3; i++){

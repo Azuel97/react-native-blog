@@ -61,7 +61,7 @@ export default class Mercato extends Component {
     // Recupero gli articoli a seconda della data che gli viene passato
     articoli = []
     articoli = ArticoliMercatoService.findArticoliPerData(this.state.selectedValue)
-    
+
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
     if(articoli.length === 0){
       articoliTro =[]

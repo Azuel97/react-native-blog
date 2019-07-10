@@ -75,16 +75,12 @@ let ArticoliCreditoService = {
         idTrovati = []
         ultimiTreArticoli = []
         for(let p of articolo){
-            //console.log('Lunghezza : ' + articolo.length)
-            // Creo un oggetto che contiene i campi che mi interessano
             idTrovati.push({id: p.id,title: p.title,abstract: p.abstract2,abstract: p.abstract,image: p.image, image2: p.image2, TitleBlocks1: p.TitleBlocks1, DescriptionBlocks1: p.DescriptionBlocks1, TitleBlocks2: p.TitleBlocks2, DescriptionBlocks2: p.DescriptionBlocks2})
         }
         for(let i=0; i<3; i++){
             // Salvo un oggetto che contiene i primi tre articoli, quindi l'oggetto è di dimensione 3
             ultimiTreArticoli.push(idTrovati[i])
         }
-        //console.log(idTrovati)
-        //console.log(ultimiTreArticoli)
         return ultimiTreArticoli
     }
 
