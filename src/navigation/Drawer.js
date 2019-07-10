@@ -9,9 +9,9 @@ import DrawerLayout from '../navigation/DrawerLayout';
 
 
 class NavigationDrawerStructure extends Component {
-  //Structure for the navigatin Drawer
+  // Struttura per il drawer navigation
   toggleDrawer = () => {
-    //Props to open/close the drawer
+    // Props per aprire e chiudere il drawer
     this.props.navigationProps.toggleDrawer();
   };
   render() {
@@ -35,16 +35,10 @@ const HomePage = createStackNavigator({
       headerTitle: (
         <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
       ),
-      headerTitleStyle: {
-        fontFamily: 'San Francisco',
-        fontSize: 24
-      },
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: 'white',
       },
-      // Color title
-      headerTintColor: 'black'
     }),
   },
 });
@@ -56,16 +50,10 @@ const MercatoImmobiliare = createStackNavigator({
       headerTitle: (
         <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
       ),
-      headerTitleStyle: {
-        fontFamily: 'San Francisco',
-        fontSize: 24
-      },
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: 'white',
       },
-      // Color title
-      headerTintColor: 'black'
     }),
   },
 });
@@ -77,16 +65,10 @@ const CreditoPage = createStackNavigator({
       headerTitle: (
         <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
       ),
-      headerTitleStyle: {
-        fontFamily: 'San Francisco',
-        fontSize: 24
-      },
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: 'white',
       },
-      // Color title
-      headerTintColor: 'black'
     }),
   },
 });
@@ -98,16 +80,10 @@ const CuriositaPage = createStackNavigator({
       headerTitle: (
         <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
       ),
-      headerTitleStyle: {
-        fontFamily: 'San Francisco',
-        fontSize: 24
-      },
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: 'white',
       },
-      // Color title
-      headerTintColor: 'black'
     }),
   },
 });
@@ -115,40 +91,21 @@ const CuriositaPage = createStackNavigator({
 const DrawerContainer = createDrawerNavigator(
     {
         Home: {
-            //Title
-            screen: HomePage,
-            navigationOptions: {
-              drawerLabel: 'Home',
-             },
+          screen: HomePage,
         },
         Mercato: {
-            //Title
-            screen: MercatoImmobiliare,
-            navigationOptions: {
-              drawerLabel: 'Mercato Immobiliare',
-            },
+          screen: MercatoImmobiliare,
         },
         Credito: {
-          //Title
           screen: CreditoPage,
-          navigationOptions: {
-            drawerLabel: 'Credito',
-          },
         },
         Curiosita: {
-          //Title
           screen: CuriositaPage,
-          navigationOptions: {
-            drawerLabel: 'Curiosità',
-          },
         },
     },
     {
         initialRouteName: 'Home',
-        contentComponent: DrawerLayout,
-        contentOptions: {
-            activeTintColor: 'red',
-        }
+        contentComponent: DrawerLayout
     }
 )
 
