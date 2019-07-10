@@ -9,6 +9,7 @@ import ArticoliMercatoService from '../store/controller/ArticoliMercatoControlle
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
 
+const categoriaCercata = 'MercatoImmobiliare'
 
 export default class Mercato extends Component {
 
@@ -28,7 +29,7 @@ export default class Mercato extends Component {
 }
 
   componentDidMount(){
-        categoriaTrovata = CategorieService.findAllArticle().toString()
+        categoriaTrovata = CategorieService.findCategoria(categoriaCercata).toString()
         if(categoriaTrovata === ''){
         console.log('fetch mercato')
         return fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/mercato-immobiliare')
@@ -51,7 +52,6 @@ export default class Mercato extends Component {
   render() {
 
     // Immagine e testo principale della activity
-    categoriaCercata = 'MercatoImmobiliare'
     image1 = CategorieService.findImageByName(categoriaCercata)
     categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
     titolo1 = CategorieService.findTitoloByName(categoriaCercata)
@@ -70,11 +70,9 @@ export default class Mercato extends Component {
       articoliTro =[]
       articoliTro = ArticoliMercatoService.findArticoli()
       this.state.articoliTrovati = articoliTro
-      console.log(this.state.articoliTro)
     }else{
       articoli = ArticoliMercatoService.findArticoliPerData(this.state.selectedValue)
       this.state.articoliTrovati = articoli
-      console.log(this.state.articoliTrovati)
     }
 
     return (
@@ -118,7 +116,8 @@ export default class Mercato extends Component {
                       titoloBlock1: item.TitleBlocks1,
                       descrizioneBlock1: item.DescriptionBlocks1,
                       titoloBlock2: item.TitleBlocks2,
-                      descrizioneBlock2: item.DescriptionBlocks2
+                      descrizioneBlock2: item.DescriptionBlocks2,
+                      slug: item.slug
                   })}>
                   <Image style={{width:340 , height: 180}}
                       source={{uri: `${item.image}`}}/>

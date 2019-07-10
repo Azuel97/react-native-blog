@@ -19,6 +19,7 @@ let repository = new Realm({
             properties: {
                 id: 'int',
                 title: 'string',
+                slug: 'string',
                 abstract: 'string',
                 abstract2: 'string',
                 image: 'string',
@@ -27,7 +28,7 @@ let repository = new Realm({
                 TitleBlocks1: 'string',
                 DescriptionBlocks1: 'string',
                 TitleBlocks2: 'string',
-                DescriptionBlocks2: 'string'
+                DescriptionBlocks2: 'string',
             }
         },
         {
@@ -97,7 +98,7 @@ let repository = new Realm({
             }
         },
     ],
-    schemaVersion: 14,
+    schemaVersion: 16,
 });
  
 let Database = {

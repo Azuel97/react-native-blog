@@ -9,6 +9,7 @@ import ArticoliCreditoService from '../store/controller/ArticoliCreditoControlle
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
 
+const categoriaCercata = 'Credito';
 
 export default class Credito extends Component {
 
@@ -26,7 +27,7 @@ export default class Credito extends Component {
 
 
   componentDidMount(){
-        categoriaTrovata = CategorieService.findAllArticle().toString()
+    categoriaTrovata = CategorieService.findCategoria(categoriaCercata).toString()
         if(categoriaTrovata === ''){
         console.log('fetch credito')
         return fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/credito')
@@ -49,7 +50,6 @@ export default class Credito extends Component {
   render() {
 
     // Immagine e testo principale della activity
-    categoriaCercata = 'Credito'
     image1 = CategorieService.findImageByName(categoriaCercata)
     categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
     titolo1 = CategorieService.findTitoloByName(categoriaCercata)

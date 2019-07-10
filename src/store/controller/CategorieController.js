@@ -8,6 +8,10 @@ let CategorieService = {
         return repository.objects('Categorie')
     },
 
+    findCategoria: function(categoria){
+        return repository.objects('Categorie').filtered('title == $0',categoria)
+    },
+
     saveArticoliSlider: function(category){
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {

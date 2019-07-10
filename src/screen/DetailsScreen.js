@@ -21,20 +21,9 @@ export default class DetailsScreen extends Component {
         extrapolate: 'clamp'
       });
 
-    // const headerBackgroundColor = this.scrollYAnimatedValue.interpolate(
-    //   {
-    //     inputRange: [0, (HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT)],
-    //     outputRange: ['#e91e63', '#1DA1F2'],
-    //     extrapolate: 'clamp'
-    //   });
-
-
-
     const { navigation } = this.props;
     const image = navigation.getParam('image', '');
     const title = navigation.getParam('title', '');
-    const pubblicazione = navigation.getParam('pubblicazione', '');
-    const desc = navigation.getParam('desc', '');
     const desc1 = navigation.getParam('desc1', '');
     const categoria = navigation.getParam('categoria', '');
     const titoloBlocco1 = navigation.getParam('titoloBlock1', '');
@@ -50,9 +39,6 @@ export default class DetailsScreen extends Component {
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this.scrollYAnimatedValue } } }]
         )} > 
-          {/* <Image style={{width:375 , height: 250,borderRadius:10}} source={{uri: `${image}`}}/>
-          <Text style={{fontWeight:'bold',fontSize:16,color:'red',position:'absolute',top:70,left:20}} >{categoria}</Text>
-          <Text style={{fontWeight:'bold',fontSize:18,color:'white',position:'absolute',top:90,left:20,paddingRight:30}} >{title}</Text> */}
           <View style={{paddingLeft:15,paddingRight:15,paddingTop:20}}>
             <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} >{desc1}</Text>
             <Text style={{fontWeight:'bold',fontSize:16,paddingTop:20}} >{titoloBlocco1}</Text>
@@ -62,9 +48,7 @@ export default class DetailsScreen extends Component {
           </View>
         </ScrollView>
 
-        {/* backgroundColor: headerBackgroundColor */}
         <Animated.View style={[styles.animatedHeaderContainer, { height: headerHeight }]}>
-            {/* <Text style={styles.headerText}>Animated Header</Text> */}
             <Image style={{width:375 , height: HEADER_MAX_HEIGHT,borderRadius:8}} source={{uri: `${image}`}}/>
             <Text style={{fontWeight:'bold',fontSize:16,color:'red',position:'absolute',top:45,left:20}} >{categoria}</Text>
             <Text style={{fontWeight:'bold',fontSize:18,color:'white',position:'absolute',top:65,left:20,paddingRight:30}} >{title}</Text>

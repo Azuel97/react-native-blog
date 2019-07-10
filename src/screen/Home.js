@@ -21,11 +21,6 @@ import Scroll from '../components/Scroll'
 // Disabilito l'uscita dei messaggi di warning
 console.disableYellowBox = true;
 
-// Catturo le dimensioni dello schermo
-var {height, width} = Dimensions.get('window');
-console.log('Height : ' + height)
-console.log('Width : ' + width)
-
 export default class Home extends Component {
 
     // Setto lo state che conterrà i dati da visualizzare nella lista
@@ -165,19 +160,19 @@ const styles = StyleSheet.create({
       width: 375,
     },
     mercatoImmobiliare: {
-        paddingTop: 25
+      paddingTop: 25
     },
     credito: {
-        paddingTop: 25
+      paddingTop: 25
     },
     curiosità: {
-        paddingTop: 25,
+      paddingTop: 25,
     },
     evidenza: {
-        paddingTop: 25,
+      paddingTop: 25,
     },
     ultimiArticoli: {
-        paddingTop: 40,
-        paddingBottom: 55
+      paddingTop: 40,
+      paddingBottom: 55
     }
   });

@@ -9,6 +9,7 @@ import ArticoliCuriositaService from '../store/controller/ArticoliCuriositaContr
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
 
+const categoriaCercata = 'Curiosità';
 
 export default class Curiosita extends Component {
 
@@ -26,7 +27,7 @@ export default class Curiosita extends Component {
 
 
   componentDidMount(){
-        categoriaTrovata = CategorieService.findAllArticle().toString()
+    categoriaTrovata = CategorieService.findCategoria(categoriaCercata).toString()
         if(categoriaTrovata === ''){
         console.log('fetch curiosità')
         return fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/curiosita')
@@ -49,7 +50,6 @@ export default class Curiosita extends Component {
   render() {
   
     // Immagine e testo principale della activity
-    categoriaCercata = 'Curiosità'
     image1 = CategorieService.findImageByName(categoriaCercata)
     categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
     titolo1 = CategorieService.findTitoloByName(categoriaCercata)
@@ -109,8 +109,6 @@ export default class Curiosita extends Component {
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailsScreen', {
                       image: item.image2,
                       title: item.title,
-                      pubblicazione: item.publish_date,
-                      desc: item.abstract,
                       desc1: item.abstract2,
                       categoria: 'Curiosità',
                       titoloBlock1: item.TitleBlocks1,
