@@ -139,7 +139,7 @@ export default class Home extends Component {
                   <Image style={{width:340 , height: 180, marginTop:20,borderRadius:3}}
                       source={{uri: `${articoloEvidenza[0].image}`}}/>
                   <View style={{width:340}}>
-                    <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{articoloEvidenza[0].category}                                           <Text style={{color:'grey',fontSize:16}}>2018-08-06</Text></Text>
+                    <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{articoloEvidenza[0].category}</Text>
                     <Text style={{fontWeight:'bold',fontSize:18,paddingTop:5}} numberOfLines={2}>{articoloEvidenza[0].title}</Text>
                     <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{articoloEvidenza[0].abstract}</Text>
                   </View>
