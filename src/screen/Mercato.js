@@ -14,9 +14,7 @@ const categoriaCercata = 'MercatoImmobiliare'
 export default class Mercato extends Component {
 
   // Setto lo state che conterrà i dati da visualizzare nella lista
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       id: '',
       titolo: '',
       descrizione: '',
@@ -25,8 +23,7 @@ export default class Mercato extends Component {
       data: [],
       dataGiornata: '',
       articoliTrovati: []
-    };
-}
+  }
 
   componentDidMount(){
         categoriaTrovata = CategorieService.findCategoria(categoriaCercata).toString()
@@ -55,12 +52,12 @@ export default class Mercato extends Component {
     image1 = CategorieService.findImageByName(categoriaCercata)
     categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
     titolo1 = CategorieService.findTitoloByName(categoriaCercata)
-
+    
     // Recupero le date di pubblicazione degli articoli
     dateTrovate = []
     dateTrovate = ArticoliMercatoService.findDatePubblicazione()
     this.state.data = dateTrovate
-
+    
     // Recupero gli articoli a seconda della data che gli viene passato
     articoli = []
     articoli = ArticoliMercatoService.findArticoliPerData(this.state.selectedValue)

@@ -50,6 +50,7 @@ export default class Home extends Component {
                 this.state.articoliCuriosita = responseJson.page.featured_categories[2].articles
                 this.state.articoloEvidenza = responseJson.page.featured_article
                 this.state.ultimiArticoli = responseJson.page.last_articles
+                // Contatori per la manipolazione dei dati ricuperati della api
                 count = this.state.sliderArticles.length
                 countMer = this.state.articoliMercato.length
                 countCre = this.state.articoliCredito.length
