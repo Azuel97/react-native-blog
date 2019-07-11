@@ -16,7 +16,6 @@ const categoriaCercata = 'Credito';
 
 export default class Credito extends Component {
 
-  // Setto lo state che conterrà i dati da visualizzare nella lista
     state = {
       idCuriosita: '',
       titoloCuriosita: '',

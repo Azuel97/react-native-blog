@@ -16,7 +16,6 @@ const categoriaCercata = 'MercatoImmobiliare'
 
 export default class Mercato extends Component {
 
-  // Setto lo state che conterrà i dati da visualizzare nella lista
   state = {
       id: '',
       titolo: '',
