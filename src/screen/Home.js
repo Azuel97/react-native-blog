@@ -18,19 +18,26 @@ import UltimiArticoliService from '../store/controller/UltimiArticoliController'
 import Slider from '../components/Slider'
 import Scroll from '../components/Scroll'
 
+// Recupero le dimensioni dello schermo
+var {height, width} = Dimensions.get('window');
+
 // Disabilito l'uscita dei messaggi di warning
 console.disableYellowBox = true;
 
 export default class Home extends Component {
 
-    state = {
-      sliderArticles: [],
-      articoliMercato: [],
-      articoliCredito: [],
-      articoliCuriosita: [],
-      articoloEvidenza: [],
-      ultimiArticoli: []
-    };
+    // Setto lo state che conterrà i dati da visualizzare nella lista
+    constructor(props) {
+        super(props);
+        this.state = {
+          sliderArticles: [],
+          articoliMercato: [],
+          articoliCredito: [],
+          articoliCuriosita: [],
+          articoloEvidenza: [],
+          ultimiArticoli: []
+        };
+    }
 
     componentDidMount(){
         articoliTrovati = ArticoliService.findAllArticle().toString()
@@ -154,7 +161,7 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     containerSlider:{
       height:250,
-      width: 375,
+      width: width,
     },
     mercatoImmobiliare: {
       paddingTop: 25
