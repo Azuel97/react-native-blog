@@ -96,8 +96,6 @@ let UltimiArticoliService = {
         return ultimiTreArticoli
     }
 
-
-
 };
 
 export default UltimiArticoliService;
