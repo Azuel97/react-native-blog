@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Animated } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, Animated, Dimensions } from 'react-native';
 
 const HEADER_MIN_HEIGHT = 40;
 const HEADER_MAX_HEIGHT = 250;
+
+// Recupero le dimensioni dello schermo
+var {height, width} = Dimensions.get('window');
 
 
 export default class DetailsScreen extends Component {
@@ -49,7 +52,7 @@ export default class DetailsScreen extends Component {
         </ScrollView>
 
         <Animated.View style={[styles.animatedHeaderContainer, { height: headerHeight }]}>
-            <Image style={{width:375 , height: HEADER_MAX_HEIGHT,borderRadius:8}} source={{uri: `${image}`}}/>
+            <Image style={{width:width , height: HEADER_MAX_HEIGHT,borderRadius:8}} source={{uri: `${image}`}}/>
             <Text style={{fontWeight:'bold',fontSize:16,color:'red',position:'absolute',top:45,left:20}} >{categoria}</Text>
             <Text style={{fontWeight:'bold',fontSize:18,color:'white',position:'absolute',top:65,left:20,paddingRight:30}} >{title}</Text>
         </Animated.View>      

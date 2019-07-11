@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Importo il componente per lo slider
 import Swiper from 'react-native-swiper'
+
+// Recupero le dimensioni dello schermo
+var {height, width} = Dimensions.get('window');
 
 export default class Slider extends Component {    
 
@@ -12,19 +15,19 @@ export default class Slider extends Component {
               <View style={styles.containerSlider}>
                 <Swiper horizontal={true} showsPagination={true}>
                   <View style={styles.slide1}>
-                    <Image style={{width:400 , height: 250}}
+                    <Image style={{width:width , height: 250}}
                         source={{uri: `${this.props.image1}`}} />
                       <Text style={styles.cat}>{this.props.categoria1}</Text>
                       <Text style={styles.text}>{this.props.titolo1}</Text>
                   </View>
                   <View style={styles.slide2}>
-                    <Image style={{width:400 , height: 250}}
+                    <Image style={{width:width , height: 250}}
                         source={{uri: `${this.props.image2}`}} />
                       <Text style={styles.cat}>{this.props.categoria2}</Text>
                       <Text style={styles.text}>{this.props.titolo2}</Text>
                   </View>
                   <View style={styles.slide3}>
-                    <Image style={{width:400 , height: 250}}
+                    <Image style={{width:width , height: 250}}
                         source={{uri: `${this.props.image3}`}} />
                       <Text style={styles.cat}>{this.props.categoria3}</Text>
                       <Text style={styles.text}>{this.props.titolo3}</Text>
@@ -65,12 +68,8 @@ Slider.defaultProps =
  
 const styles = StyleSheet.create({
     containerSlider:{
-      position: 'absolute',
-      top:0,
-      left:0,
-      right:0,
       height:250,
-      width: 375
+      width: width
     },
     wrapper: {
     },

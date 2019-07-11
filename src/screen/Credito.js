@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, FlatList, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 // Import DB
 import Database from '../store/index'
 import CategorieModel from '../store/models/CategorieModel'
@@ -8,6 +8,9 @@ import ArticoliCreditoModel from '../store/models/ArticoliCreditoModel'
 import ArticoliCreditoService from '../store/controller/ArticoliCreditoController'
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
+
+// Recupero le dimensioni dello schermo
+var {height, width} = Dimensions.get('window');
 
 const categoriaCercata = 'Credito';
 
@@ -77,7 +80,7 @@ export default class Credito extends Component {
 
     return (
         <View style={{flex:1}}>
-          <Image style={{width:400 , height: 200}} source={{uri: `${image1}`}} />
+          <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
           <Text style={styles.cat}>{categoria1}</Text>
           <Text style={styles.text}>{titolo1}</Text>
           
