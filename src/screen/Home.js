@@ -23,18 +23,14 @@ console.disableYellowBox = true;
 
 export default class Home extends Component {
 
-    // Setto lo state che conterrà i dati da visualizzare nella lista
-    constructor(props) {
-        super(props);
-        this.state = {
-          sliderArticles: [],
-          articoliMercato: [],
-          articoliCredito: [],
-          articoliCuriosita: [],
-          articoloEvidenza: [],
-          ultimiArticoli: []
-        };
-    }
+    state = {
+      sliderArticles: [],
+      articoliMercato: [],
+      articoliCredito: [],
+      articoliCuriosita: [],
+      articoloEvidenza: [],
+      ultimiArticoli: []
+    };
 
     componentDidMount(){
         articoliTrovati = ArticoliService.findAllArticle().toString()

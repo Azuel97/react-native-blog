@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
       height:250,
       width: width
     },
-    wrapper: {
-    },
     slide1: {
       flex:1,
       backgroundColor: '#9DD6EB'

@@ -24,7 +24,6 @@ export default class Credito extends Component {
       imageCuriosita: '',
       selectedValue: 'DATA',
       data: [],
-      dataGiornata: '',
       articoliTrovati: []
     }
 
@@ -98,7 +97,6 @@ export default class Credito extends Component {
                 onValueChange={(value, index ) => {
                   this.setState({
                     selectedValue: value,
-                    dataGiornata: value,
                     selectedIndex: index,
                   })
               }}/>

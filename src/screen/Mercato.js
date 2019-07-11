@@ -24,7 +24,6 @@ export default class Mercato extends Component {
       image: '',
       selectedValue: 'DATA',
       data: [],
-      dataGiornata: '',
       articoliTrovati: []
   }
 
@@ -94,7 +93,6 @@ export default class Mercato extends Component {
                 onValueChange={(value, index ) => {
                   this.setState({
                     selectedValue: value,
-                    dataGiornata: value,
                     selectedIndex: index,
                   })
               }}/>
