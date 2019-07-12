@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
+// Importo le activity
 import Home from '../screen/Home';
 import Mercato from '../screen/Mercato';
 import Curiosita from '../screen/Curiosita';
 import Credito from '../screen/Credito';
+// Importo il layout del drawer
 import DrawerLayout from '../navigation/DrawerLayout';
-
 
 class NavigationDrawerStructure extends Component {
   // Struttura per il drawer navigation
@@ -14,6 +15,7 @@ class NavigationDrawerStructure extends Component {
     // Props per aprire e chiudere il drawer
     this.props.navigationProps.toggleDrawer();
   };
+
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>

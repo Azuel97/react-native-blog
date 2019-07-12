@@ -4,10 +4,12 @@ let repository = Database.getRepository();
  
 let ArticoliService = {
 
+    // Recupero tutti gli articoli
     findAllArticle: function(){
         return repository.objects('ArticoliSlider')
     },
 
+    // Salvo gli articoli
     saveArticoliSlider: function(article){
         // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
         if (repository.objects('ArticoliSlider').filtered(" id = '" + article.id + "'").length) 
@@ -20,6 +22,7 @@ let ArticoliService = {
         return true;
     },
 
+    // Recupero i campi in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('ArticoliSlider').filtered('id == $0',id) 
         for(let p of articolo){

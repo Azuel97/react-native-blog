@@ -4,11 +4,12 @@ let repository = Database.getRepository();
  
 let ArticoloEvidenzaService = {
 
-    findAllArticle: function(){
-        return repository.objects('ArticoloEvidenza')
-    },
-
+    // Salvo gli articoli
     saveArticoliEvidenza: function(evidenza){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('ArticoliSlider').filtered(" id = '" + evidenza.id + "'").length) 
+            return false;
+
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
             repository.create('ArticoloEvidenza', evidenza);
@@ -16,6 +17,7 @@ let ArticoloEvidenzaService = {
         return true;
     },
 
+    // Recupero gli articoli in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('ArticoloEvidenza').filtered('id == $0',id) 
         for(let p of articolo){
@@ -51,6 +53,7 @@ let ArticoloEvidenzaService = {
         }
     },
 
+    // Recupero gli articoli in base alla data passata
     findArticoliPerData: function(dataCercata) {
         articolo = repository.objects('ArticoloEvidenza').filtered('publish_date == $0',dataCercata) 
         idTrovati = []
@@ -61,6 +64,7 @@ let ArticoloEvidenzaService = {
         return idTrovati
     },
 
+    // Recupero tutti gli articoli
     findArticoli: function(){
         articolo = repository.objects('ArticoloEvidenza')
         idTrovati = []
@@ -71,6 +75,7 @@ let ArticoloEvidenzaService = {
         return idTrovati
     },
 
+    // Recupero le date di pubblicazione degli articoli
     findDatePubblicazione: function(){
         date = repository.objects('ArticoloEvidenza')
         dateTrovate = []

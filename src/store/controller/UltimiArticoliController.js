@@ -4,10 +4,7 @@ let repository = Database.getRepository();
  
 let UltimiArticoliService = {
 
-    findAllArticle: function(){
-        return repository.objects('UltimiArticoli')
-    },
-
+    // Salvo gli articoli
     saveUltimiArticoli: function(ultimi){
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
@@ -16,6 +13,7 @@ let UltimiArticoliService = {
         return true;
     },
 
+    // Recupero i valori in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('UltimiArticoli').filtered('id == $0',id) 
         for(let p of articolo){
@@ -51,6 +49,7 @@ let UltimiArticoliService = {
         }
     },
 
+    // Recupero gli articoli in base alla data
     findArticoliPerData: function(dataCercata) {
         articolo = repository.objects('UltimiArticoli').filtered('publish_date == $0',dataCercata) 
         idTrovati = []
@@ -61,6 +60,7 @@ let UltimiArticoliService = {
         return idTrovati
     },
 
+    // Recupero gli articoli
     findArticoli: function(){
         articolo = repository.objects('UltimiArticoli')
         idTrovati = []
@@ -71,6 +71,7 @@ let UltimiArticoliService = {
         return idTrovati
     },
 
+    // Recupero le date di pubblicazione degli articoli
     findDatePubblicazione: function(){
         date = repository.objects('UltimiArticoli')
         dateTrovate = []

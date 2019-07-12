@@ -4,14 +4,11 @@ let repository = Database.getRepository();
  
 let CategorieService = {
 
-    findAllArticle: function(){
-        return repository.objects('Categorie')
-    },
-
     findCategoria: function(categoria){
         return repository.objects('Categorie').filtered('title == $0',categoria)
     },
 
+    // Salvo gli articoli
     saveArticoliSlider: function(category){
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
@@ -20,7 +17,7 @@ let CategorieService = {
         return true;
     },
 
-    // Ricerca tramite ID
+    // Recupero i valori in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('Categorie').filtered('id == $0',id) 
         for(let p of articolo){

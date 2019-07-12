@@ -4,11 +4,11 @@ let repository = Database.getRepository();
  
 let ArticoliCreditoService = {
 
-    findAllArticle: function(){
-        return repository.objects('ArticoliCredito')
-    },
-
+    // Salvo gli articoli
     saveArticoliCredito: function(mercato){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('ArticoliSlider').filtered(" id = '" + mercato.id + "'").length) 
+            return false;
 
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
@@ -17,6 +17,7 @@ let ArticoliCreditoService = {
         return true;
     },
 
+    // Recupero i campi in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('ArticoliCredito').filtered('id == $0',id) 
         for(let p of articolo){
@@ -38,6 +39,7 @@ let ArticoliCreditoService = {
         }
     },
 
+    // Recupero gli articoli in base alla data passata 
     findArticoliPerData: function(dataCercata) {
         articolo = repository.objects('ArticoliCredito').filtered('publish_date == $0',dataCercata) 
         idTrovati = []
@@ -48,6 +50,7 @@ let ArticoliCreditoService = {
         return idTrovati
     },
 
+    // Recupero tutti gli aeticoli
     findArticoli: function(){
         articolo = repository.objects('ArticoliCredito')
         idTrovati = []
@@ -58,6 +61,7 @@ let ArticoliCreditoService = {
         return idTrovati
     },
 
+    // Recupero le date di pubblicazione degli articoli
     findDatePubblicazione: function(){
         date = repository.objects('ArticoliCredito')
         dateTrovate = []

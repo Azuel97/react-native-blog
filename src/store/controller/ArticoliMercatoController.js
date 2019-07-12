@@ -4,11 +4,12 @@ let repository = Database.getRepository();
  
 let ArticoliMercatoService = {
 
-    findAllArticle: function(){
-        return repository.objects('ArticoliMercato')
-    },
-
+    // Salvo gli articoli
     saveArticoliMercato: function(mercato){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('ArticoliSlider').filtered(" id = '" + mercato.id + "'").length) 
+            return false;
+
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
             repository.create('ArticoliMercato', mercato);
@@ -16,6 +17,7 @@ let ArticoliMercatoService = {
         return true;
     },
 
+    // Recupero i campi in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
         for(let p of articolo){
@@ -51,6 +53,7 @@ let ArticoliMercatoService = {
         }
     },
 
+    // Recupero tutti gli articoli in base alla data passata da cercare
     findArticoliPerData: function(dataCercata) {
         articolo = repository.objects('ArticoliMercato').filtered('publish_date == $0',dataCercata) 
         idTrovati = []
@@ -61,6 +64,7 @@ let ArticoliMercatoService = {
         return idTrovati
     },
 
+    // Recupero tutti gli articoli
     findArticoli: function(){
         articolo = repository.objects('ArticoliMercato')
         idTrovati = []
@@ -71,6 +75,7 @@ let ArticoliMercatoService = {
         return idTrovati
     },
 
+    // Recupero le date di publicazione degli articoli
     findDatePubblicazione: function(){
         date = repository.objects('ArticoliMercato')
         dateTrovate = []

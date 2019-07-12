@@ -47,37 +47,39 @@ export default class Home extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 // Salvo negli state i data recuperati dall'API
-                this.state.sliderArticles = responseJson.page.highlighted_articles
-                this.state.articoliMercato = responseJson.page.featured_categories[0].articles
-                this.state.articoliCredito = responseJson.page.featured_categories[1].articles
-                this.state.articoliCuriosita = responseJson.page.featured_categories[2].articles
-                this.state.articoloEvidenza = responseJson.page.featured_article
-                this.state.ultimiArticoli = responseJson.page.last_articles
+                this.setState({
+                  sliderArticles : responseJson.page.highlighted_articles,
+                  articoliMercato : responseJson.page.featured_categories[0].articles,
+                  articoliCredito : responseJson.page.featured_categories[1].articles,
+                  articoliCuriosita : responseJson.page.featured_categories[2].articles,
+                  articoloEvidenza : responseJson.page.featured_article,
+                  ultimiArticoli : responseJson.page.last_articles
+                })
                 // Contatori per la manipolazione dei dati ricuperati della api
                 count = this.state.sliderArticles.length
                 countMer = this.state.articoliMercato.length
                 countCre = this.state.articoliCredito.length
                 countCur = this.state.articoliCuriosita.length
                 countUlt = this.state.ultimiArticoli.length
-                // Recupero gli articoli per lo slider
+                // Salvo gli articoli per lo slider
                 for(let i=0; i<count; i++){
                     ArticoliService.saveArticoliSlider(new ArticoliModel(this.state.sliderArticles[i].id,this.state.sliderArticles[i].title,this.state.sliderArticles[i].image_complete_url,this.state.sliderArticles[i].category.name));
                 }
-                // Recupero gli articoli per la categoria ' Mercato Immobiliare '
+                // Salvo gli articoli per la categoria ' Mercato Immobiliare '
                 for(let i=0; i<countMer; i++){
                     ArticoliMercatoService.saveArticoliMercato(new ArticoliMercatoModel(this.state.articoliMercato[i].id,this.state.articoliMercato[i].title,this.state.articoliMercato[i].abstract,this.state.articoliMercato[i].thumbnail_complete_url,this.state.articoliMercato[i].publish_date))
                 }
-                // Recupero gli articoli per la categoria ' Credito '
+                // Salvo gli articoli per la categoria ' Credito '
                 for(let i=0; i<countCre; i++){
                     ArticoliCreditoService.saveArticoliCredito(new ArticoliCreditoModel(this.state.articoliCredito[i].id,this.state.articoliCredito[i].title,this.state.articoliCredito[i].abstract,this.state.articoliCredito[i].thumbnail_complete_url,this.state.articoliCredito[i].publish_date))
                 }
-                // Recupero gli articoli per la categoria ' Curiosità '
+                // Salvo gli articoli per la categoria ' Curiosità '
                 for(let i=0; i<countCur; i++){
                     ArticoliCuriositaService.saveArticoliCuriosita(new ArticoliCuriositaModel(this.state.articoliCuriosita[i].id,this.state.articoliCuriosita[i].title,this.state.articoliCuriosita[i].abstract,this.state.articoliCuriosita[i].thumbnail_complete_url,this.state.articoliCuriosita[i].publish_date))
                 }
-                // Recupero l'articolo in evidenza
+                // Salvo l'articolo in evidenza
                 ArticoloEvidenzaService.saveArticoliEvidenza(new ArticoloEvidenzaModel(this.state.articoloEvidenza.id,this.state.articoloEvidenza.title,this.state.articoloEvidenza.abstract,this.state.articoloEvidenza.thumbnail_complete_url,this.state.articoloEvidenza.category.name))
-                // Recupero gli articoli per la sezione ' Ultimi Articoli '
+                // Salvo gli articoli per la sezione ' Ultimi Articoli '
                 for(let i=0; i<countUlt; i++){
                     UltimiArticoliService.saveUltimiArticoli(new UltimiArticoliModel(this.state.ultimiArticoli[i].id,this.state.ultimiArticoli[i].title,this.state.ultimiArticoli[i].thumbnail_complete_url,this.state.ultimiArticoli[i].publish_date,this.state.ultimiArticoli[i].category.name))
                 }

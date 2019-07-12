@@ -4,11 +4,11 @@ let repository = Database.getRepository();
  
 let ArticoliCuriositaService = {
 
-    findAllArticle: function(){
-        return repository.objects('ArticoliCuriosita')
-    },
-
+    // Salvo gli articoli
     saveArticoliCuriosita: function(mercato){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('ArticoliSlider').filtered(" id = '" + mercato.id + "'").length) 
+            return false;
 
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
@@ -17,6 +17,7 @@ let ArticoliCuriositaService = {
         return true;
     },
 
+    // Recupero i valori in base al loro ID
     findTitoloByID: function(id) {
         articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
         for(let p of articolo){
@@ -38,6 +39,7 @@ let ArticoliCuriositaService = {
         }
     },
 
+    // Recupero gli articoli in base alla data passata nella ricerca
     findArticoliPerData: function(dataCercata) {
         articolo = repository.objects('ArticoliCuriosita').filtered('publish_date == $0',dataCercata) 
         idTrovati = []
@@ -48,6 +50,7 @@ let ArticoliCuriositaService = {
         return idTrovati
     },
 
+    // Recupero tutti gli articoli
     findArticoli: function(){
         articolo = repository.objects('ArticoliCuriosita')
         idTrovati = []
@@ -58,6 +61,7 @@ let ArticoliCuriositaService = {
         return idTrovati
     },
 
+    // Recupero le date di pubblicazione degli articoli
     findDatePubblicazione: function(){
         date = repository.objects('ArticoliCuriosita')
         dateTrovate = []
