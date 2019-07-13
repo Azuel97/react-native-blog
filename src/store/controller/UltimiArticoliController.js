@@ -66,7 +66,7 @@ let UltimiArticoliService = {
         idTrovati = []
         for(let p of articolo){
             // Creo un oggetto che contiene i campi che mi interessano
-            idTrovati.push({id: p.id,title: p.title,abstract: p.abstract,image: p.image, category: p.category})
+            idTrovati.push({id: p.id,title: p.title,abstract: p.abstract,image: p.image, categoria: p.category})
         }
         return idTrovati
     },

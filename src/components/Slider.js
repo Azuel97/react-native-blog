@@ -9,63 +9,39 @@ var {height, width} = Dimensions.get('window');
 
 export default class Slider extends Component {    
 
+    sliderArticoli() {
+      return this.props.data.map((struttura) => {
+        return(
+          <View style={styles.slide1} key={struttura.id}>
+            <Image style={{width:width , height: 250}}
+                  source={{uri: `${struttura.image}`}} />
+            <Text style={styles.cat}>{struttura.categoria}</Text>
+            <Text style={styles.text}>{struttura.titolo}</Text>
+          </View>
+        );
+      });
+    }
+
     render() {
         return (
-              // Slider che contiene al suo intero tre immagini
-              <View style={styles.containerSlider}>
-                <Swiper horizontal={true} showsPagination={true}>
-                  <View style={styles.slide1}>
-                    <Image style={{width:width , height: 250}}
-                        source={{uri: `${this.props.image1}`}} />
-                      <Text style={styles.cat}>{this.props.categoria1}</Text>
-                      <Text style={styles.text}>{this.props.titolo1}</Text>
-                  </View>
-                  <View style={styles.slide2}>
-                    <Image style={{width:width , height: 250}}
-                        source={{uri: `${this.props.image2}`}} />
-                      <Text style={styles.cat}>{this.props.categoria2}</Text>
-                      <Text style={styles.text}>{this.props.titolo2}</Text>
-                  </View>
-                  <View style={styles.slide3}>
-                    <Image style={{width:width , height: 250}}
-                        source={{uri: `${this.props.image3}`}} />
-                      <Text style={styles.cat}>{this.props.categoria3}</Text>
-                      <Text style={styles.text}>{this.props.titolo3}</Text>
-                    </View>
-                </Swiper>
-              </View>
+          // Slider
+          <View style={styles.containerSlider}>
+            <Swiper horizontal={true} showsPagination={true}> 
+              {this.sliderArticoli()}
+            </Swiper>
+          </View>
         );
     }
 }
 
-
-Slider.propTypes =
-{
-  image1: PropTypes.string,
-  titolo1: PropTypes.string,
-  categoria1: PropTypes.string,
-  image2: PropTypes.string,
-  titolo2: PropTypes.string,
-  categoria2: PropTypes.string,
-  image3: PropTypes.string,
-  titolo3: PropTypes.string,
-  categoria3: PropTypes.string,
+Slider.propTypes = {
+  data: PropTypes.array
 }
  
-Slider.defaultProps =
-{
-  image1: '',
-  titolo1: '',
-  categoria1: '',
-  image2: '',
-  titolo2: '',
-  categoria2: '',
-  image3: '',
-  titolo3: '',
-  categoria3: '',
+Slider.defaultProps = {
+  data: []
 }
 
- 
 const styles = StyleSheet.create({
     containerSlider:{
       height:250,
@@ -74,14 +50,6 @@ const styles = StyleSheet.create({
     slide1: {
       flex:1,
       backgroundColor: '#9DD6EB'
-    },
-    slide2: {
-      flex:1,
-      backgroundColor: '#97CAE5'
-    },
-    slide3: {
-      flex:1,
-      backgroundColor: '#92BBD9'
     },
     text: {
       position: 'absolute',
