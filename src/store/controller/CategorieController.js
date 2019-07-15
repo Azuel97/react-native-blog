@@ -10,6 +10,10 @@ let CategorieService = {
 
     // Salvo gli articoli
     saveArticoliSlider: function(category){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('Categorie').filtered(" id = '" + category.id + "'").length) 
+            return false;
+
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
             repository.create('Categorie', category);

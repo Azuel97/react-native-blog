@@ -7,7 +7,7 @@ let ArticoliMercatoService = {
     // Salvo gli articoli
     saveArticoliMercato: function(mercato){
         // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
-        if (repository.objects('ArticoliSlider').filtered(" id = '" + mercato.id + "'").length) 
+        if (repository.objects('ArticoliMercato').filtered(" id = '" + mercato.id + "'").length) 
             return false;
 
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true

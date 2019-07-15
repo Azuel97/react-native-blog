@@ -7,7 +7,7 @@ let ArticoloEvidenzaService = {
     // Salvo gli articoli
     saveArticoliEvidenza: function(evidenza){
         // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
-        if (repository.objects('ArticoliSlider').filtered(" id = '" + evidenza.id + "'").length) 
+        if (repository.objects('ArticoloEvidenza').filtered(" id = '" + evidenza.id + "'").length) 
             return false;
 
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true

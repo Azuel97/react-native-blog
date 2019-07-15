@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 // Importo DB
 import Database from '../store/index'
 import ArticoliModel from '../store/models/ArticoliModel'
@@ -17,6 +17,7 @@ import UltimiArticoliService from '../store/controller/UltimiArticoliController'
 // Importo i miei componenti
 import Slider from '../components/Slider'
 import Scroll from '../components/Scroll'
+import CardEvidenza from '../components/CardEvidenza'
 
 // Recupero le dimensioni dello schermo
 var {height, width} = Dimensions.get('window');
@@ -26,13 +27,20 @@ console.disableYellowBox = true;
 
 export default class Home extends Component {
 
-  componentWillMount(){
+  state = {
+    loading: false
+  }
+
+  async componentWillMount(){
+    // Abilito il caricamento
+    this.setState({loading: true});
+
       articoliTrovati = ArticoliService.findAllArticle()
       if(articoliTrovati.length === 0){
           console.log('Eseguo il FETCH')
-          return fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
-          .then((response) => response.json())
-          .then((responseJson) => {
+          try {
+            let response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
+            let responseJson = await response.json()
             // Destrutturazione
             const {highlighted_articles, featured_categories, featured_article, last_articles} = responseJson.page;
             // Salvo i dati recuperati della API
@@ -42,7 +50,7 @@ export default class Home extends Component {
             featured_categories2 = featured_categories[2].articles;
             featuredArticle = featured_article;
             lastArticles = last_articles;
-            // Salvo gli articoli per lo Slider
+            //Salvo gli articoli per lo Slider
             highlightedaArticles.forEach(element => {
               ArticoliService.saveArticoliSlider(new ArticoliModel(element.id,element.title,element.image_complete_url,element.category.name));
             });
@@ -62,12 +70,11 @@ export default class Home extends Component {
             ArticoloEvidenzaService.saveArticoliEvidenza(new ArticoloEvidenzaModel(featuredArticle.id,featuredArticle.title,featuredArticle.abstract,featuredArticle.thumbnail_complete_url,featuredArticle.category.name))
             // Salvo gli articoli per la sezione ' Ultimi Articoli '
             lastArticles.forEach(element => {
-              UltimiArticoliService.saveUltimiArticoli(new UltimiArticoliModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date,element.category.name));
+              UltimiArticoliService.saveUltimiArticoli(new UltimiArticoliModel(element.id,element.title,element.thumbnail_complete_url,element.publish_date,element.category.name));
             });
-          })
-          .catch((error) => {
-              console.error(error);
-          });
+          }catch(error) {
+            console.error(error);
+          };
       }else{
           console.log('No FETCH')
       }
@@ -86,45 +93,43 @@ export default class Home extends Component {
       articoloEvidenza = ArticoloEvidenzaService.findArticoli()
       // Ultimi Articoli
       ultimiArticoli = UltimiArticoliService.findArticoli()
+
+      // Disabilito il caricamento
+      this.setState({loading: false});
   }
 
-
     render() {
+      if(this.state.loading){
+        return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = "large" />
+      }else{
         return (
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.containerSlider}>
                 <Slider data={articoliSlider} />
               </View>
-              <View style={styles.mercatoImmobiliare}>
-                <Text style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>Mercato Immobiliare</Text>
+              <View style={styles.categoria}>
+                <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
                 <Scroll data={articoliMercato} />
               </View>
-              <View style={styles.credito}>
-                <Text style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>Credito</Text>
+              <View style={styles.categoria}>
+                <Text style={styles.stileCategoria}>Credito</Text>
                 <Scroll data={articoliCredito} />
               </View>
-              <View style={styles.curiosità}>
-                <Text style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>Curiosità</Text>
+              <View style={styles.categoria}>
+                <Text style={styles.stileCategoria}>Curiosità</Text>
                 <Scroll data={articoliCuriosita} />
               </View>
-              <View style={styles.evidenza}>
-                <Text style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>Articolo In Evidenza</Text>
-                <View style={{marginLeft:17}}>
-                  <Image style={{width:340 , height: 180, marginTop:20,borderRadius:3}}
-                      source={{uri: `${articoloEvidenza[0].image}`}}/>
-                  <View style={{width:340}}>
-                    <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{articoloEvidenza[0].category}</Text>
-                    <Text style={{fontWeight:'bold',fontSize:18,paddingTop:5}} numberOfLines={2}>{articoloEvidenza[0].title}</Text>
-                    <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{articoloEvidenza[0].abstract}</Text>
-                  </View>
-                </View>
+              <View style={styles.categoria}>
+                <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
+                <CardEvidenza data={articoloEvidenza} />
               </View>
               <View style={styles.ultimiArticoli}>
-                <Text style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>Gli Ultimi Articoli</Text>
+                <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
                 <Scroll data={ultimiArticoli}  />
               </View>
             </ScrollView>
         );
+      }
     }
 }
  
@@ -133,20 +138,22 @@ const styles = StyleSheet.create({
       height:250,
       width: width,
     },
-    mercatoImmobiliare: {
+    categoria: {
       paddingTop: 25
-    },
-    credito: {
-      paddingTop: 25
-    },
-    curiosità: {
-      paddingTop: 25,
-    },
-    evidenza: {
-      paddingTop: 25,
     },
     ultimiArticoli: {
       paddingTop: 40,
       paddingBottom: 55
-    }
-  });
+    },
+    stileCategoria: {
+      fontSize:20,
+      fontWeight:'bold',
+      marginLeft:10
+    },
+    activityIndicator: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 80
+   }
+});

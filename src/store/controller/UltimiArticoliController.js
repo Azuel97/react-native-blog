@@ -6,6 +6,10 @@ let UltimiArticoliService = {
 
     // Salvo gli articoli
     saveUltimiArticoli: function(ultimi){
+        // Se esistono di già gli articoli allora non vengono aggiunti, e ritorna false
+        if (repository.objects('UltimiArticoli').filtered(" id = '" + ultimi.id + "'").length) 
+            return false;
+
         // Se gli articoli non sono presenti, allora gli aggiungo e torno true
         repository.write(() => {
             repository.create('UltimiArticoli', ultimi);

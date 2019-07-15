@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Swiper from 'react-native-swiper'
 
 // Recupero le dimensioni dello schermo
-var {height, width} = Dimensions.get('window');
+var {width} = Dimensions.get('window');
 
 export default class Slider extends Component {    
 
