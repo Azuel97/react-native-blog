@@ -6,6 +6,7 @@ import Home from '../screen/Home';
 import Mercato from '../screen/Mercato';
 import Curiosita from '../screen/Curiosita';
 import Credito from '../screen/Credito';
+import Categorie from '../screen/Categorie';
 // Importo il layout del drawer
 import DrawerLayout from '../navigation/DrawerLayout';
 

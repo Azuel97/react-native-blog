@@ -26,8 +26,9 @@ export default class Mercato extends Component {
     const { navigation } = this.props;
     const cate = navigation.getParam('categoria', '');
     return (
-        <View style={{flex:1}}>
-          <Text style={styles.text}>{cate}</Text>
+        <View>
+          <Text style={{fontSize:40}} >HELLO WORLD!</Text>
+          <Text style={{fontSize:20}} >{cate}</Text>
         </View>
     );
   }

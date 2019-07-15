@@ -20,7 +20,7 @@ import Scroll from '../components/Scroll'
 import CardEvidenza from '../components/CardEvidenza'
 
 // Recupero le dimensioni dello schermo
-var {width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 // Disabilito l'uscita dei messaggi di warning
 console.disableYellowBox = true;
@@ -40,7 +40,6 @@ export default class Home extends Component {
   async componentWillMount(){
     const articoliTrovati = ArticoliService.findAllArticle()
     if(articoliTrovati.length === 0){
-      console.log('Eseguo il FETCH')
       try {
         const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
         const responseJson = await response.json()

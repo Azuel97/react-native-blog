@@ -6,9 +6,9 @@ export default class CardEvidenza extends Component {
 
   articoloEvidenza() {
     return this.props.data.map((struttura) => {
-      const {image, category, title, abstract} = struttura;
+      const {id, image, category, title, abstract} = struttura;
       return(
-        <View>
+        <View key={id}>
           <Image style={{width:340 , height: 180, marginTop:20,borderRadius:3}} source={{uri: `${image}`}}/>
           <View style={{width:340}}>
             <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{category}</Text>
