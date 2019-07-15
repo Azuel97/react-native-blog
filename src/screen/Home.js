@@ -20,7 +20,7 @@ import Scroll from '../components/Scroll'
 import CardEvidenza from '../components/CardEvidenza'
 
 // Recupero le dimensioni dello schermo
-var {height, width} = Dimensions.get('window');
+var {width} = Dimensions.get('window');
 
 // Disabilito l'uscita dei messaggi di warning
 console.disableYellowBox = true;
@@ -28,109 +28,105 @@ console.disableYellowBox = true;
 export default class Home extends Component {
 
   state = {
-    loading: false
+    loading: true,
+    articoliSlider: [],
+    articoliMercato: [],
+    articoliCredito: [],
+    articoliCuriosita: [],
+    articoloEvidenza: [],
+    ultimiArticoli: []
   }
 
   async componentWillMount(){
-    // Abilito il caricamento
-    this.setState({loading: true});
-
-      articoliTrovati = ArticoliService.findAllArticle()
-      if(articoliTrovati.length === 0){
-          console.log('Eseguo il FETCH')
-          try {
-            let response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
-            let responseJson = await response.json()
-            // Destrutturazione
-            const {highlighted_articles, featured_categories, featured_article, last_articles} = responseJson.page;
-            // Salvo i dati recuperati della API
-            highlightedaArticles = highlighted_articles;
-            featured_categories0 = featured_categories[0].articles;
-            featured_categories1 = featured_categories[1].articles;
-            featured_categories2 = featured_categories[2].articles;
-            featuredArticle = featured_article;
-            lastArticles = last_articles;
-            //Salvo gli articoli per lo Slider
-            highlightedaArticles.forEach(element => {
-              ArticoliService.saveArticoliSlider(new ArticoliModel(element.id,element.title,element.image_complete_url,element.category.name));
-            });
-            // Salvo gli articoli per la categoria ' Mercato Immobiliare '
-            featured_categories0.forEach(element => {
-              ArticoliMercatoService.saveArticoliMercato(new ArticoliMercatoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
-            });
-            // Salvo gli articoli per la categoria ' Credito '
-            featured_categories1.forEach(element => {
-              ArticoliCreditoService.saveArticoliCredito(new ArticoliCreditoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
-            });
-            // Salvo gli articoli per la categoria ' Curiosità '
-            featured_categories2.forEach(element => {
-              ArticoliCuriositaService.saveArticoliCuriosita(new ArticoliCuriositaModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
-            });
-            // Salvo l'articolo in evidenza
-            ArticoloEvidenzaService.saveArticoliEvidenza(new ArticoloEvidenzaModel(featuredArticle.id,featuredArticle.title,featuredArticle.abstract,featuredArticle.thumbnail_complete_url,featuredArticle.category.name))
-            // Salvo gli articoli per la sezione ' Ultimi Articoli '
-            lastArticles.forEach(element => {
-              UltimiArticoliService.saveUltimiArticoli(new UltimiArticoliModel(element.id,element.title,element.thumbnail_complete_url,element.publish_date,element.category.name));
-            });
-          }catch(error) {
-            console.error(error);
-          };
-      }else{
-          console.log('No FETCH')
-      }
-      // Articoli Slider
-      articoliSlider = ArticoliService.findLastTreArticoli()
-      // Mercato Immobiliare
-      articoliMercato = ArticoliMercatoService.findArticoli()
-      categoriaM = 'Mercato Immobiliare'
-      // Credito
-      articoliCredito = ArticoliCreditoService.findArticoli()
-      categoriaC = 'Credito'
-      // Curiosità
-      articoliCuriosita = ArticoliCuriositaService.findArticoli()
-      categoriaCu = 'Curiosità'
-      // Articolo in Evidenza
-      articoloEvidenza = ArticoloEvidenzaService.findArticoli()
-      // Ultimi Articoli
-      ultimiArticoli = UltimiArticoliService.findArticoli()
-
-      // Disabilito il caricamento
-      this.setState({loading: false});
+    const articoliTrovati = ArticoliService.findAllArticle()
+    if(articoliTrovati.length === 0){
+      console.log('Eseguo il FETCH')
+      try {
+        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
+        const responseJson = await response.json()
+        // Destrutturazione
+        const {highlighted_articles, featured_categories, featured_article, last_articles} = responseJson.page;
+        // Salvo i dati recuperati della API
+        const highlightedaArticles = highlighted_articles;
+        const featured_categories0 = featured_categories[0].articles;
+        const featured_categories1 = featured_categories[1].articles;
+        const featured_categories2 = featured_categories[2].articles;
+        const featuredArticle = featured_article;
+        const lastArticles = last_articles;
+        //Salvo gli articoli per lo Slider
+        highlightedaArticles.forEach(element => {
+          ArticoliService.saveArticoliSlider(new ArticoliModel(element.id,element.title,element.image_complete_url,element.category.name));
+        });
+        // Salvo gli articoli per la categoria ' Mercato Immobiliare '
+        featured_categories0.forEach(element => {
+          ArticoliMercatoService.saveArticoliMercato(new ArticoliMercatoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        });
+        // Salvo gli articoli per la categoria ' Credito '
+        featured_categories1.forEach(element => {
+          ArticoliCreditoService.saveArticoliCredito(new ArticoliCreditoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        });
+        // Salvo gli articoli per la categoria ' Curiosità '
+        featured_categories2.forEach(element => {
+          ArticoliCuriositaService.saveArticoliCuriosita(new ArticoliCuriositaModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        });
+        // Salvo l'articolo in evidenza
+        ArticoloEvidenzaService.saveArticoliEvidenza(new ArticoloEvidenzaModel(featuredArticle.id,featuredArticle.title,featuredArticle.abstract,featuredArticle.thumbnail_complete_url,featuredArticle.category.name))
+        // Salvo gli articoli per la sezione ' Ultimi Articoli '
+        lastArticles.forEach(element => {
+          UltimiArticoliService.saveUltimiArticoli(new UltimiArticoliModel(element.id,element.title,element.thumbnail_complete_url,element.publish_date,element.category.name));
+        });
+      }catch(error) {
+        console.error(error);
+      };
+    }
+    // Aggiorno gli state
+    this.setState({
+      loading: false,
+      articoliSlider : ArticoliService.findLastTreArticoli(),
+      articoliMercato : ArticoliMercatoService.findArticoli(),
+      articoliCredito : ArticoliCreditoService.findArticoli(),
+      articoliCuriosita : ArticoliCuriositaService.findArticoli(),
+      articoloEvidenza : ArticoloEvidenzaService.findArticoli(),
+      ultimiArticoli : UltimiArticoliService.findArticoli()
+    });
   }
 
-    render() {
-      if(this.state.loading){
-        return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = "large" />
-      }else{
-        return (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={styles.containerSlider}>
-                <Slider data={articoliSlider} />
-              </View>
-              <View style={styles.categoria}>
-                <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
-                <Scroll data={articoliMercato} />
-              </View>
-              <View style={styles.categoria}>
-                <Text style={styles.stileCategoria}>Credito</Text>
-                <Scroll data={articoliCredito} />
-              </View>
-              <View style={styles.categoria}>
-                <Text style={styles.stileCategoria}>Curiosità</Text>
-                <Scroll data={articoliCuriosita} />
-              </View>
-              <View style={styles.categoria}>
-                <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
-                <CardEvidenza data={articoloEvidenza} />
-              </View>
-              <View style={styles.ultimiArticoli}>
-                <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
-                <Scroll data={ultimiArticoli}  />
-              </View>
-            </ScrollView>
-        );
-      }
+  render() {
+    const {loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli} = this.state;
+    if(loading){
+      return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
+    }else{
+      return (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.containerSlider}>
+            <Slider data={articoliSlider} />
+          </View>
+          <View style={styles.categoria}>
+            <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
+            <Scroll data={articoliMercato} />
+          </View>
+          <View style={styles.categoria}>
+            <Text style={styles.stileCategoria}>Credito</Text>
+            <Scroll data={articoliCredito} />
+          </View>
+          <View style={styles.categoria}>
+            <Text style={styles.stileCategoria}>Curiosità</Text>
+            <Scroll data={articoliCuriosita} />
+          </View>
+          <View style={styles.categoria}>
+            <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
+            <View style={{marginLeft:17}}>
+              <CardEvidenza data={articoloEvidenza} />
+            </View>
+          </View>
+          <View style={styles.ultimiArticoli}>
+            <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
+            <Scroll data={ultimiArticoli}  />
+          </View>
+        </ScrollView>
+      );
     }
+  }
 }
  
 const styles = StyleSheet.create({

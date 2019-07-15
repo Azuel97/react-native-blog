@@ -9,29 +9,29 @@ var {width} = Dimensions.get('window');
 
 export default class Slider extends Component {    
 
-    sliderArticoli() {
-      return this.props.data.map((struttura) => {
-        return(
-          <View style={styles.slide1} key={struttura.id}>
-            <Image style={{width:width , height: 250}}
-                  source={{uri: `${struttura.image}`}} />
-            <Text style={styles.cat}>{struttura.categoria}</Text>
-            <Text style={styles.text}>{struttura.titolo}</Text>
-          </View>
-        );
-      });
-    }
+  sliderArticoli() {
+    return this.props.data.map((struttura) => {
+      const {id,image,categoria,titolo} = struttura;
+      return(
+        <View style={styles.slide1} key={id}>
+          <Image style={{width:width, height:250}} source={{uri: `${image}`}} />
+          <Text style={styles.cat}>{categoria}</Text>
+          <Text style={styles.text}>{titolo}</Text>
+        </View>
+      );
+    });
+  }
 
-    render() {
-        return (
-          // Slider
-          <View style={styles.containerSlider}>
-            <Swiper horizontal={true} showsPagination={true}> 
-              {this.sliderArticoli()}
-            </Swiper>
-          </View>
-        );
-    }
+  render() {
+    return (
+      // Slider immagini
+      <View style={styles.containerSlider}>
+        <Swiper horizontal={true} showsPagination={true}> 
+          {this.sliderArticoli()}
+        </Swiper>
+      </View>
+    );
+  }
 }
 
 Slider.propTypes = {
