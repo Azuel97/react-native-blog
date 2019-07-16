@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 // Import DB
 import Database from '../store/index'
 import CategorieModel from '../store/models/CategorieModel'
@@ -8,90 +8,99 @@ import ArticoliCreditoModel from '../store/models/ArticoliCreditoModel'
 import ArticoliCreditoService from '../store/controller/ArticoliCreditoController'
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
+import CardGrandi from '../components/CardGrandi'
 
 // Recupero le dimensioni dello schermo
-var {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const categoriaCercata = 'Credito';
+const categoriaCercata = 'credito';
+var image1 = '', categoria1 = '', titolo1 = '', articoliTrovati = '';
 
 export default class Credito extends Component {
 
-    state = {
-      idCuriosita: '',
-      titoloCuriosita: '',
-      descrizioneCuriosita: '',
-      imageCuriosita: '',
-      selectedValue: 'DATA',
-      data: [],
-      articoliTrovati: []
+  state = {
+    loading: true,
+    Id: '',
+    titolo: '',
+    descrizione: '',
+    image: '',
+    selectedValue: 'DATA',
+    data: []
+  }
+
+  async componentDidMount(){
+    const categoriaTrovata = CategorieService.findCategoria(categoriaCercata);
+    if(categoriaTrovata.length === 0){
+      try {
+        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/credito');
+        const responseJson = await response.json();
+        // Destrutturazione
+        const {id, slug, meta, image_complete_url} = responseJson.category;
+        this.setState({
+          Id : id,
+          titolo : slug,
+          descrizione : meta.description,
+          image : image_complete_url
+        })
+        // Destrutturazione
+        const {Id, titolo, descrizione, image} = this.state;
+        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image))
+      }catch(error) {
+        console.error(error);
+      };
     }
+    // Aggiorno gli state
+    this.setState({
+      loading: false
+    });
+  }
 
-
-  componentDidMount(){
-    categoriaTrovata = CategorieService.findCategoria(categoriaCercata).toString()
-        if(categoriaTrovata === ''){
-        console.log('fetch credito')
-        return fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/credito')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            this.state.idCuriosita = responseJson.category.id
-            this.state.titoloCuriosita = responseJson.category.name
-            this.state.descrizioneCuriosita = responseJson.category.meta.description
-            this.state.imageCuriosita = responseJson.category.image_complete_url
-            CategorieService.saveArticoliSlider(new CategorieModel(this.state.id,this.state.titolo,this.state.descrizione,this.state.image))
-          })
-        .catch((error) => {
-            console.error(error);
-        });
-      }else{
-        console.log('No fetch credito')
-      }
-    }
-  
-  render() {
-
+  filtroDataArticoli() {
+    const {selectedValue} = this.state;
     // Immagine e testo principale della activity
     image1 = CategorieService.findImageByName(categoriaCercata)
     categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
     titolo1 = CategorieService.findTitoloByName(categoriaCercata)
 
     // Recupero le date di pubblicazione degli articoli
-    dateTrovate = []
-    dateTrovate = ArticoliCreditoService.findDatePubblicazione()
+    var dateTrovate = ArticoliCreditoService.findDatePubblicazione()
     this.state.data = dateTrovate
 
     // Recupero gli articoli a seconda della data che gli viene passato
-    articoli = []
-    articoli = ArticoliCreditoService.findArticoliPerData(this.state.selectedValue)
+    var articoli = ArticoliCreditoService.findArticoliPerData(selectedValue)
     
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
     if(articoli.length === 0){
-      articoliTro =[]
-      articoliTro = ArticoliCreditoService.findArticoli()
-      this.state.articoliTrovati = articoliTro
-      console.log(this.state.articoliTro)
+      articoli = ArticoliCreditoService.findArticoli()
+      articoliTrovati = articoli
     }else{
-      articoli = ArticoliCreditoService.findArticoliPerData(this.state.selectedValue)
-      this.state.articoliTrovati = articoli
-      console.log(this.state.articoliTrovati)
+      articoli = ArticoliCreditoService.findArticoliPerData(selectedValue)
+      articoliTrovati = articoli
     }
-
+  }
+  
+  render() {
+    this.filtroDataArticoli();
+    const {loading, data, selectedValue} = this.state;
+    if(loading){
+      return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
+    }else{
     return (
         <View style={{flex:1}}>
           <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
-          <Text style={styles.cat}>{categoria1}</Text>
+          <Text style={styles.cat}>Credito</Text>
           <Text style={styles.text}>{titolo1}</Text>
           
           <View style={{flexDirection: 'row',backgroundColor:'#F7F7F7',marginTop:25,width:200,height:40,marginLeft:15}}>
               <TouchableOpacity style={{width:170,height:40}} onPress={() => {this.pickerRef.show()}}>
-                <Text style={{fontSize: 18,paddingTop:10,paddingLeft:10,paddingBottom:10}}>{this.state.selectedValue}</Text>
+                <Text style={{fontSize: 18,paddingTop:10,paddingLeft:10,paddingBottom:10}}>{selectedValue}</Text>
               </TouchableOpacity>
               <Text style={{color:'#DC1C2E',fontSize: 18,paddingTop:10,paddingBottom:10}}>▼</Text>
               <ReactNativePickerModule
                 pickerRef={e => this.pickerRef = e}
-                value={this.state.selectedValue}
+                value={selectedValue}
                 title={"Seleziona data"}
-                items={this.state.data}
+                items={data}
                 onCancel={()=>{console.log('Cancelled')}}
                 onValueChange={(value, index ) => {
                   this.setState({
@@ -104,41 +113,16 @@ export default class Credito extends Component {
           <View style={{paddingTop: 10,flex:1,paddingBottom:15}}>
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={this.state.articoliTrovati}
-              renderItem={({item}) => <View style={styles.mercatImmo}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('DetailsScreen', {
-                      image: item.image2,
-                      title: item.title,
-                      pubblicazione: item.publish_date,
-                      desc: item.abstract,
-                      desc1: item.abstract2,
-                      categoria: 'Credito',
-                      titoloBlock1: item.TitleBlocks1,
-                      descrizioneBlock1: item.DescriptionBlocks1,
-                      titoloBlock2: item.TitleBlocks2,
-                      descrizioneBlock2: item.DescriptionBlocks2
-                  })}>
-                  <Image style={{width:340 , height: 180}}
-                      source={{uri: `${item.image}`}}/>
-                  <View style={{width:340}}>
-                  <View style={{justifyContent: 'space-between',flex: 1,flexDirection: 'row',}}>
-                      <View>
-                        <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>Credito</Text>
-                      </View>
-                      <View>
-                        <Text style={{color:'grey',fontSize:16, fontWeight:'bold',paddingTop:5}}>{item.publish_date}</Text>
-                      </View>
-                    </View>
-                    <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} numberOfLines={2}>{item.title}</Text>
-                    <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{item.abstract}</Text>
-                  </View>
-                  </TouchableOpacity>
-                </View>}
+              data={articoliTrovati}
+              renderItem={({item}) => <CardGrandi publish_date={item.publish_date} title={item.title} abstract={item.abstract} image={item.image} categoria={'Credito'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
+                id: item.id,
+                categoria: 'credito',})} />}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
         </View>
     );
+  }
   }
 }
  
@@ -165,5 +149,11 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     marginTop:15,  
     paddingBottom:15 
-  }
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
+ }
 });

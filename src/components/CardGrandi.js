@@ -7,7 +7,7 @@ export default class CardGrandi extends Component {
   render() {
     return (
       <View style={styles.mercatImmo}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.props.onPress}>
         <Image style={{width:340 , height: 180}} source={{uri: `${this.props.image}`}}/>
         <View style={{width:340}}>
           <View style={{justifyContent: 'space-between',flex: 1,flexDirection: 'row',}}>

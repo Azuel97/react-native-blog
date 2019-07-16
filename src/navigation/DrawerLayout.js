@@ -33,12 +33,32 @@ export default class DrawerLayout extends Component {
                     <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Curiosita') ? styles.selectedTextStyle : null]} onPress={this.navigateToScreen('Curiosita')}>Curiosità</Text>
                 </View>
             </View>
+            <View style={styles.bottom}>
+                <View style={{flexDirection: 'row', paddingBottom:20}}>
+                    <Image source={require('../image/facebook-24.png')} />
+                    <Image source={require('../image/twitter-24.png')} style={{marginLeft:12}}/>
+                    <Image source={require('../image/youtube-24.png')} style={{marginLeft:12}}/>
+                    <Image source={require('../image/instagram-24.png')} style={{marginLeft:12}} />
+                    <Image source={require('../image/linkedin-24.png')} style={{marginLeft:12}} />
+                </View>
+                <Text style={{color:'#fff', fontWeight:'bold',fontSize:12}}>© RE/MAX Italia P.Iva 00170620249</Text>
+                <Text style={{color:'#fff', paddingBottom:40,fontWeight:'bold',fontSize:12}}>Tutti i diritti riservati</Text>
+            </View>
         </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 0,
+        backgroundColor: '#003DA7',
+        width:280,
+        marginTop:340,
+        alignItems: 'center'
+    },
     container: {
         flex: 1,
         alignItems: 'center'

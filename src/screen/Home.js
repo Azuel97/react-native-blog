@@ -37,12 +37,12 @@ export default class Home extends Component {
     ultimiArticoli: []
   }
 
-  async componentWillMount(){
-    const articoliTrovati = ArticoliService.findAllArticle()
+  async componentDidMount(){
+    const articoliTrovati = ArticoliService.findAllArticle();
     if(articoliTrovati.length === 0){
       try {
-        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages')
-        const responseJson = await response.json()
+        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages');
+        const responseJson = await response.json();
         // Destrutturazione
         const {highlighted_articles, featured_categories, featured_article, last_articles} = responseJson.page;
         // Salvo i dati recuperati della API
@@ -80,13 +80,13 @@ export default class Home extends Component {
     }
     // Aggiorno gli state
     this.setState({
-      loading: false,
       articoliSlider : ArticoliService.findLastTreArticoli(),
       articoliMercato : ArticoliMercatoService.findArticoli(),
       articoliCredito : ArticoliCreditoService.findArticoli(),
       articoliCuriosita : ArticoliCuriositaService.findArticoli(),
       articoloEvidenza : ArticoloEvidenzaService.findArticoli(),
-      ultimiArticoli : UltimiArticoliService.findArticoli()
+      ultimiArticoli : UltimiArticoliService.findArticoli(),
+      loading: false
     });
   }
 
@@ -129,26 +129,26 @@ export default class Home extends Component {
 }
  
 const styles = StyleSheet.create({
-    containerSlider:{
-      height:250,
-      width: width,
-    },
-    categoria: {
-      paddingTop: 25
-    },
-    ultimiArticoli: {
-      paddingTop: 40,
-      paddingBottom: 55
-    },
-    stileCategoria: {
-      fontSize:20,
-      fontWeight:'bold',
-      marginLeft:10
-    },
-    activityIndicator: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 80
-   }
+  containerSlider:{
+    height:250,
+    width: width,
+  },
+  categoria: {
+    paddingTop: 25
+  },
+  ultimiArticoli: {
+    paddingTop: 40,
+    paddingBottom: 55
+  },
+  stileCategoria: {
+    fontSize:20,
+    fontWeight:'bold',
+    marginLeft:10
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
+  }
 });
