@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { withNavigation } from 'react-navigation';
 
-export default class Scroll extends Component {
+class Scroll extends Component {
 
   cardArticoli() {
     return this.props.data.map((struttura) => {
+      // Destrutturazione
       const {id, image, categoria, title, abstract} = struttura;
+      const {navigation : { navigate }} = this.props;
       return(
-        <TouchableOpacity key={id} >
+        <TouchableOpacity key={id} onPress={() => navigate('DetailsScreen',{id:id,categoria:categoria})}>
           <View style={styles.mercatImmo}>
             <Image style={{width:160, height:160, backgroundColor:'lightblue',borderRadius:3}} source={{uri: `${image}`}} />
             <View style={{width:160, paddingTop:7}}>
@@ -24,13 +27,14 @@ export default class Scroll extends Component {
 
   render() {
     return (
-      // Scroll orizzontale degli articoli
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {this.cardArticoli()}
       </ScrollView>
     );  
   }
 }
+
+export default withNavigation(Scroll);
 
 Scroll.propTypes = {
   data: PropTypes.array

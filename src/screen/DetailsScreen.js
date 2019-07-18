@@ -31,13 +31,13 @@ export default class DetailsScreen extends Component {
       const { navigation } = this.props;
       const id =  navigation.getParam('id', '');
       const categoria =  navigation.getParam('categoria', '');
-      if(categoria === 'mercato-immobiliare'){
+      if(categoria === 'Mercato Immobiliare'){
         this.recuperoStruttura(ArticoliMercatoService, id);
         categoriaMer = categoria;
-      }else if(categoria === 'credito'){
+      }else if(categoria === 'Credito'){
         this.recuperoStruttura(ArticoliCreditoService, id);
         categoriaMer = categoria;
-      }else if(categoria === 'curiosita'){
+      }else if(categoria === 'Curiosita'){
         this.recuperoStruttura(ArticoliCuriositaService, id);
         categoriaMer = categoria;
       }
@@ -50,7 +50,7 @@ export default class DetailsScreen extends Component {
     });
   }
 
-  recuperoStruttura(service,id){
+  recuperoStruttura(service, id){
     image2 = service.findImage2ByID(id);
     titolo = service.findTitoloByID(id);
     TitleBlocks1 = service.findTitleBlocks1ByID(id);

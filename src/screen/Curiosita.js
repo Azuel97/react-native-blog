@@ -13,19 +13,24 @@ import CardGrandi from '../components/CardGrandi'
 // Recupero le dimensioni dello schermo
 var {width} = Dimensions.get('window');
 
-const categoriaCercata = 'curiosita';
-var image1 = '', categoria1 = '', titolo1 = '', articoliTrovati = '';
+const categoriaCercata = 'Curiosita';
+var image1 = '', categoria1 = '', titolo1 = '';
 
 export default class Curiosita extends Component {
 
-  state = {
-    loading: true,
-    Id: '',
-    titolo: '',
-    descrizione: '',
-    image: '',
-    selectedValue: 'DATA',
-    data: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      Id: '',
+      titolo: '',
+      descrizione: '',
+      image: '',
+      selectedValue: 'DATA',
+      data: [],
+      articoliTrovati: []
+    };
+    this.filtroDataArticoli = this.filtroDataArticoli.bind(this);
   }
 
   async componentDidMount(){
@@ -35,53 +40,61 @@ export default class Curiosita extends Component {
         const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/curiosita');
         const responseJson = await response.json();
         // Destrutturazione
-        const {id, slug, meta, image_complete_url} = responseJson.category;
+        const {id, name, meta, image_complete_url} = responseJson.category;
         this.setState({
           Id : id,
-          titolo : slug,
+          titolo : name,
           descrizione : meta.description,
           image : image_complete_url
         })
         // Destrutturazione
         const {Id, titolo, descrizione, image} = this.state;
-        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image))
+        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image));
       }catch(error) {
         console.error(error);
       };
     }
+    // Immagine e testo principale della activity
+    image1 = CategorieService.findImageByName(categoriaCercata);
+    categoria1 = CategorieService.findCategoriaByName(categoriaCercata);
+    titolo1 = CategorieService.findTitoloByName(categoriaCercata);
+    // Recupero le date di pubblicazione degli articoli
+    var dateTrovate = ArticoliCuriositaService.findDatePubblicazione();
+    // Recupero gli articoli a seconda della data che gli viene passato
+    var articoli = ArticoliCuriositaService.findArticoli();
+
     // Aggiorno gli state
     this.setState({
+      data: dateTrovate,
+      articoliTrovati: articoli,
       loading: false
     });
   }
 
-  filtroDataArticoli(){
-    const {selectedValue} = this.state;
-    // Immagine e testo principale della activity
-    image1 = CategorieService.findImageByName(categoriaCercata)
-    categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
-    titolo1 = CategorieService.findTitoloByName(categoriaCercata)
-
-    // Recupero le date di pubblicazione degli articoli
-    var dateTrovate = ArticoliCuriositaService.findDatePubblicazione()
-    this.state.data = dateTrovate
-
+  filtroDataArticoli(value){
     // Recupero gli articoli a seconda della data che gli viene passato
-    var articoli = ArticoliCuriositaService.findArticoliPerData(selectedValue)
-    
+    var articoli = ArticoliCuriositaService.findArticoliPerData(value);
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
     if(articoli.length === 0){
-      articoli = ArticoliCuriositaService.findArticoli()
-      articoliTrovati = articoli
-    }else{
-      articoli = ArticoliCuriositaService.findArticoliPerData(selectedValue)
-      articoliTrovati = articoli
+      articoli = ArticoliCuriositaService.findArticoli();
     }
+    this.setState({
+      articoliTrovati: articoli
+    });
+  }
+
+  renderListItem(item) {
+    const {publish_date, title, abstract, image, id } = item;
+    return (
+      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={'Mercato Immobiliare'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
+        id: id,
+        categoria: 'Curiosita' })} 
+      />
+    );
   }
   
   render() {
-    this.filtroDataArticoli();
-    const {loading, data, selectedValue} = this.state;
+    const {loading, data, selectedValue, articoliTrovati} = this.state;
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }else{
@@ -101,8 +114,8 @@ export default class Curiosita extends Component {
                 value={selectedValue}
                 title={"Seleziona data"}
                 items={data}
-                onCancel={()=>{console.log('Cancelled')}}
                 onValueChange={(value, index ) => {
+                  this.filtroDataArticoli(value);
                   this.setState({
                     selectedValue: value,
                     selectedIndex: index,
@@ -114,9 +127,7 @@ export default class Curiosita extends Component {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={articoliTrovati}
-              renderItem={({item}) => <CardGrandi publish_date={item.publish_date} title={item.title} abstract={item.abstract} image={item.image} categoria={'Mercato Immobiliare'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
-                id: item.id,
-                categoria: 'curiosita', })} />}
+              renderItem={({item}) => this.renderListItem(item)} 
               keyExtractor={(item, index) => index.toString()}
             />
           </View>

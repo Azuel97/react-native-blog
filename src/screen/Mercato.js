@@ -13,19 +13,27 @@ import CardGrandi from '../components/CardGrandi'
 // Recupero le dimensioni dello schermo
 const {width} = Dimensions.get('window');
 
-const categoriaCercata = 'mercato-immobiliare'
-var image1 = '', categoria1 = '', titolo1 = '', articoliTrovati = '';
+const categoriaCercata = 'Mercato Immobiliare';
+var image1 = '', categoria1 = '', titolo1 = '';
 
 export default class Mercato extends Component {
 
-  state = {
-    loading: true,
-    Id: '',
-    titolo: '',
-    descrizione: '',
-    image: '',
-    selectedValue: 'DATA',
-    data: []
+  // Istanziazione del componente
+  constructor(props) {
+    // Invocare il costruttore della classe base 
+    super(props);
+    // Assegno i valori di default
+    this.state = {
+      loading: true,
+      Id: '',
+      titolo: '',
+      descrizione: '',
+      image: '',
+      selectedValue: 'DATA',
+      data: [],
+      articoliTrovati: []
+    };
+    this.filtroDataArticoli = this.filtroDataArticoli.bind(this);
   }
 
   async componentDidMount(){
@@ -35,53 +43,61 @@ export default class Mercato extends Component {
         const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/mercato-immobiliare');
         const responseJson = await response.json();
         // Destrutturazione
-        const {id, slug, meta, image_complete_url} = responseJson.category;
+        const {id, name, meta, image_complete_url} = responseJson.category;
         this.setState({
           Id : id,
-          titolo : slug,
+          titolo : name,
           descrizione : meta.description,
           image : image_complete_url
         })
         // Destrutturazione
         const {Id, titolo, descrizione, image} = this.state;
-        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image))
+        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image));
       }catch(error) {
         console.error(error);
       };
     }
+    // Immagine e testo principale della activity
+    image1 = CategorieService.findImageByName(categoriaCercata);
+    categoria1 = CategorieService.findCategoriaByName(categoriaCercata);
+    titolo1 = CategorieService.findTitoloByName(categoriaCercata);
+    // Recupero le date di pubblicazione degli articoli
+    var dateTrovate = ArticoliMercatoService.findDatePubblicazione();
+    // Recupero gli articoli a seconda della data che gli viene passato
+    var articoli = ArticoliMercatoService.findArticoli();
+
     // Aggiorno gli state
     this.setState({
+      data: dateTrovate,
+      articoliTrovati: articoli,
       loading: false
     });
   }
 
-  filtroDataArticoli(){
-    const {selectedValue} = this.state;
-    // Immagine e testo principale della activity
-    image1 = CategorieService.findImageByName(categoriaCercata)
-    categoria1 = CategorieService.findCategoriaByName(categoriaCercata)
-    titolo1 = CategorieService.findTitoloByName(categoriaCercata)
-    
-    // Recupero le date di pubblicazione degli articoli
-    var dateTrovate = ArticoliMercatoService.findDatePubblicazione()
-    this.state.data = dateTrovate
-    
+  filtroDataArticoli(value){
     // Recupero gli articoli a seconda della data che gli viene passato
-    var articoli = ArticoliMercatoService.findArticoliPerData(selectedValue)
-
+    var articoli = ArticoliMercatoService.findArticoliPerData(value);
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
     if(articoli.length === 0){
-      articoli = ArticoliMercatoService.findArticoli()
-      articoliTrovati = articoli
-    }else{
-      articoli = ArticoliMercatoService.findArticoliPerData(selectedValue)
-      articoliTrovati = articoli
+      articoli = ArticoliMercatoService.findArticoli();
     }
+    this.setState({
+      articoliTrovati: articoli
+    });
+  }
+
+  renderListItem(item) {
+    const {publish_date, title, abstract, image, id } = item;
+    return (
+      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={'Mercato Immobiliare'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
+        id: id,
+        categoria: 'Mercato Immobiliare' })} 
+      />
+    );
   }
   
   render() {
-    this.filtroDataArticoli();
-    const {loading, data, selectedValue} = this.state;
+    const {loading, data, selectedValue, articoliTrovati} = this.state;
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }else{
@@ -101,22 +117,20 @@ export default class Mercato extends Component {
               value={selectedValue}
               title={"Seleziona data"}
               items={data}
-              onCancel={()=>{console.log('Cancelled')}}
               onValueChange={(value, index ) => {
+                this.filtroDataArticoli(value);
                 this.setState({
                   selectedValue: value,
                   selectedIndex: index,
                 })
-              }}/>
+              }} />
           </View>
 
           <View style={{paddingTop: 10,flex:1,paddingBottom:15}}>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={articoliTrovati}
-              renderItem={({item}) => <CardGrandi publish_date={item.publish_date} title={item.title} abstract={item.abstract} image={item.image} categoria={'Mercato Immobiliare'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
-                  id: item.id,
-                  categoria: 'mercato-immobiliare' })} />}
+              renderItem={({item}) => this.renderListItem(item)}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
