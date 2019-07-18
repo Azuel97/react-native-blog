@@ -27,14 +27,20 @@ console.disableYellowBox = true;
 
 export default class Home extends Component {
 
-  state = {
-    loading: true,
-    articoliSlider: [],
-    articoliMercato: [],
-    articoliCredito: [],
-    articoliCuriosita: [],
-    articoloEvidenza: [],
-    ultimiArticoli: []
+  // Istanziazione del componente
+  constructor(props) {
+    // Invocare il costruttore della classe base 
+    super(props);
+    // Assegno i valori di default
+    this.state = {
+      loading: true,
+      articoliSlider: [],
+      articoliMercato: [],
+      articoliCredito: [],
+      articoliCuriosita: [],
+      articoloEvidenza: [],
+      ultimiArticoli: []
+    };
   }
 
   async componentDidMount(){

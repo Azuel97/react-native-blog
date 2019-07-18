@@ -24,13 +24,14 @@ export default class DetailsScreen extends Component {
       loading: true
     }
     this.scrollYAnimatedValue = new Animated.Value(0);
+    this.recuperoStruttura = this.recuperoStruttura.bind(this);
   }
 
   async componentDidMount() {
     try {
-      const { navigation } = this.props;
-      const id =  navigation.getParam('id', '');
-      const categoria =  navigation.getParam('categoria', '');
+      const { navigation : {getParam} } = this.props;
+      const id =  getParam('id', '');
+      const categoria =  getParam('categoria', '');
       if(categoria === 'Mercato Immobiliare'){
         this.recuperoStruttura(ArticoliMercatoService, id);
         categoriaMer = categoria;
@@ -69,7 +70,6 @@ export default class DetailsScreen extends Component {
 
     // Destrutturazione
     const {loading} = this.state;
-
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }else{
