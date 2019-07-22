@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
+import { StackActions } from 'react-navigation';
 
 export default class DrawerLayout extends Component {
+
+    state ={
+        homeActive: true,
+        mercatoActive: false,
+        creditoActive: false,
+        curiositaActive: false
+    }
+
+    goTo = (route,categoria) => () => {
+        const {navigation} = this.props;
+        navigation.navigate(route, {categoria});
+        // const pushAction = StackActions.push({
+        //     routeName: route,
+        //     params: { categoria},
+        // });
+        // this.props.navigation.dispatch(pushAction);
+    }
 
   render() {
     return (
@@ -12,16 +30,16 @@ export default class DrawerLayout extends Component {
             <View style={styles.screenContainer}>
                 <View style={{borderBottomColor:'#666666',borderBottomWidth: 1, width:'88%', marginLeft:15}} />
                 <View style={styles.screenStyle1}>
-                    <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Home') ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Home')}>Home</Text>
+                    <Text style={[styles.screenTextStyle, (this.state.homeActive===true) ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Home')}>Home</Text>
                 </View>
                 <View style={styles.screenStyle1}>
-                    <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Mercato') ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Mercato')}>Mercato Immobiliare</Text>
+                    <Text style={[styles.screenTextStyle, (this.state.mercatoActive===true) ? styles.selectedTextStyle : null]} onPress={this.goTo('Mercato','Mercato Immobiliare')}>Mercato Immobiliare</Text>
                 </View>
                 <View style={styles.screenStyle1}>
-                    <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Credito') ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Credito')}>Credito</Text>
+                    <Text style={[styles.screenTextStyle, (this.state.creditoActive===true) ? styles.selectedTextStyle : null]} onPress={this.goTo('Credito','Credito')}>Credito</Text>
                 </View>
                 <View style={styles.screenStyle1}>
-                    <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Curiosita') ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Curiosita')}>Curiosità</Text>
+                    <Text style={[styles.screenTextStyle, (this.state.curiositaActive===true) ? styles.selectedTextStyle : null]} onPress={this.goTo('Curiosita','Curiosita')}>Curiosità</Text>
                 </View>
             </View>
             <View style={styles.bottom}>

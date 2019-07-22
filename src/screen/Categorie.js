@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, Alert } from 'react-native';
 // Import DB
 import Database from '../store/index'
 import CategorieModel from '../store/models/CategorieModel'
 import CategorieService from '../store/controller/CategorieController'
 import ArticoliMercatoModel from '../store/models/ArticoliMercatoModel'
 import ArticoliMercatoService from '../store/controller/ArticoliMercatoController'
+import ArticoliCreditoModel from '../store/models/ArticoliCreditoModel'
+import ArticoliCreditoService from '../store/controller/ArticoliCreditoController'
+import ArticoliCuriositaModel from '../store/models/ArticoliCuriositaModel'
+import ArticoliCuriositaService from '../store/controller/ArticoliCuriositaController'
 // Componenti
 import ReactNativePickerModule from 'react-native-picker-module'
 import CardGrandi from '../components/CardGrandi'
@@ -13,10 +17,7 @@ import CardGrandi from '../components/CardGrandi'
 // Recupero le dimensioni dello schermo
 const {width} = Dimensions.get('window');
 
-const categoriaCercata = 'Mercato Immobiliare';
-var image1 = '', categoria1 = '', titolo1 = '';
-
-export default class Mercato extends Component {
+export default class Categorie extends Component {
 
   // Istanziazione del componente
   constructor(props) {
@@ -25,6 +26,9 @@ export default class Mercato extends Component {
     // Assegno i valori di default
     this.state = {
       loading: true,
+      image1: '',
+      categoria1: '',
+      titolo1: '',
       Id: '',
       titolo: '',
       descrizione: '',
@@ -34,13 +38,16 @@ export default class Mercato extends Component {
       articoliTrovati: []
     };
     this.filtroDataArticoli = this.filtroDataArticoli.bind(this);
+    this.impostaStruttura = this.impostaStruttura.bind(this);
   }
 
   async componentDidMount(){
-    const categoriaTrovata = CategorieService.findCategoria(categoriaCercata);
+    const { navigation : {getParam} } = this.props;
+    const categoria =  getParam('categoria', '');
+    const categoriaTrovata = CategorieService.findCategoria(categoria);
     if(categoriaTrovata.length === 0){
       try {
-        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/mercato-immobiliare');
+        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/'+categoria);
         const responseJson = await response.json();
         // Destrutturazione
         const {id, name, meta, image_complete_url} = responseJson.category;
@@ -57,54 +64,62 @@ export default class Mercato extends Component {
         console.error(error);
       };
     }
-    // Immagine e testo principale della activity
-    image1 = CategorieService.findImageByName(categoriaCercata);
-    categoria1 = CategorieService.findCategoriaByName(categoriaCercata);
-    titolo1 = CategorieService.findTitoloByName(categoriaCercata);
-    // Recupero le date di pubblicazione degli articoli
-    var dateTrovate = ArticoliMercatoService.findDatePubblicazione();
-    // Recupero gli articoli a seconda della data che gli viene passato
-    var articoli = ArticoliMercatoService.findArticoli();
+    if(categoria === 'Mercato Immobiliare'){
+      this.impostaStruttura(ArticoliMercatoService,categoria);
+    }else if(categoria === 'Credito'){
+      this.impostaStruttura(ArticoliCreditoService,categoria);
+    }else if(categoria === 'Curiosita'){
+      this.impostaStruttura(ArticoliCuriositaService,categoria);
+    }
+  }
 
+  impostaStruttura(service,category) {
+    // Recupero le date di pubblicazione degli articoli
+    var dateTrovate = service.findDatePubblicazione();
+    // Recupero gli articoli a seconda della data che gli viene passato
+    var articoli = service.findArticoli();
     // Aggiorno gli state
     this.setState({
+      image1: CategorieService.findImageByName(category),
+      categoria1: CategorieService.findCategoriaByName(category),
+      titolo1: CategorieService.findTitoloByName(category),
       data: dateTrovate,
       articoliTrovati: articoli,
       loading: false
     });
   }
 
-  filtroDataArticoli(value){
+  filtroDataArticoli(value,service){
     // Recupero gli articoli a seconda della data che gli viene passato
-    var articoli = ArticoliMercatoService.findArticoliPerData(value);
+    var articoli = service.findArticoliPerData(value);
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
     if(articoli.length === 0){
-      articoli = ArticoliMercatoService.findArticoli();
+      articoli = service.findArticoli();
     }
     this.setState({
       articoliTrovati: articoli
     });
   }
 
-  renderListItem(item) {
+  renderListItem(item,categoria1) {
     const {publish_date, title, abstract, image, id } = item;
     return (
-      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={'Mercato Immobiliare'} onPress={() => this.props.navigation.navigate('DetailsScreen', {
+      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={categoria1} onPress={() => this.props.navigation.navigate('DetailsScreen', {
         id: id,
-        categoria: 'Mercato Immobiliare' })} 
+        categoria: categoria1 })} 
       />
     );
   }
   
   render() {
-    const {loading, data, selectedValue, articoliTrovati} = this.state;
+    const {loading, data, selectedValue, articoliTrovati,image1, categoria1, titolo1} = this.state;
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }else{
       return (
         <View style={{flex:1}}>
           <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
-          <Text style={styles.cat}>Mercato Immobiliare</Text>
+          <Text style={styles.cat}>{categoria1}</Text>
           <Text style={styles.text}>{titolo1}</Text>
             
           <View style={{flexDirection: 'row',backgroundColor:'#F7F7F7',marginTop:25,width:200,height:40,marginLeft:15}}>
@@ -118,7 +133,13 @@ export default class Mercato extends Component {
               title={"Seleziona data"}
               items={data}
               onValueChange={(value, index ) => {
-                this.filtroDataArticoli(value);
+                if(categoria1 === 'Mercato Immobiliare'){
+                  this.filtroDataArticoli(value,ArticoliMercatoService);
+                }else if(categoria1 === 'Credito'){
+                  this.filtroDataArticoli(value,ArticoliCreditoService);
+                }else if(categoria1 === 'Curiosita'){
+                  this.filtroDataArticoli(value,ArticoliCuriositaService);
+                }
                 this.setState({
                   selectedValue: value,
                   selectedIndex: index,
@@ -130,7 +151,7 @@ export default class Mercato extends Component {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={articoliTrovati}
-              renderItem={({item}) => this.renderListItem(item)}
+              renderItem={({item}) => this.renderListItem(item,categoria1)}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>

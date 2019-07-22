@@ -3,11 +3,9 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 // Importo le activity
 import Home from '../screen/Home';
-import Mercato from '../screen/Mercato';
-import Curiosita from '../screen/Curiosita';
-import Credito from '../screen/Credito';
 // Importo il layout del drawer
 import DrawerLayout from '../navigation/DrawerLayout';
+import Categorie from '../screen/Categorie';
 
 class NavigationDrawerStructure extends Component {
   // Struttura per il drawer navigation
@@ -44,66 +42,12 @@ const HomePage = createStackNavigator({
     }),
   },
 });
- 
-const MercatoImmobiliare = createStackNavigator({
-  Second: {
-    screen: Mercato,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: (
-        <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
-      ),
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: 'white',
-      },
-    }),
-  },
-});
-
-const CreditoPage = createStackNavigator({
-  Third: {
-    screen: Credito,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: (
-        <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
-      ),
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: 'white',
-      },
-    }),
-  },
-});
-
-const CuriositaPage = createStackNavigator({
-  Four: {
-    screen: Curiosita,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: (
-        <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
-      ),
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: 'white',
-      },
-    }),
-  },
-});
 
 const DrawerContainer = createDrawerNavigator(
     {
         Home: {
           screen: HomePage,
-        },
-        Mercato: {
-          screen: MercatoImmobiliare,
-        },
-        Credito: {
-          screen: CreditoPage,
-        },
-        Curiosita: {
-          screen: CuriositaPage,
-        },
+        }
     },
     {
         initialRouteName: 'Home',

@@ -13,15 +13,21 @@ const HEADER_MAX_HEIGHT = 250;
 
 // Recupero le dimensioni dello schermo
 var {height, width} = Dimensions.get('window');
-var image2 = '', titolo = '', categoriaMer = '', abstract = '';
-var TitleBlocks1 = '', TitleBlocks2 = '', DescriptionBlocks1 = '', DescriptionBlocks2 = '';
 
 export default class DetailsScreen extends Component {
 
   constructor() {
     super();
     this.state = {
-      loading: true
+      loading: true,
+      image2: '',
+      titolo: '',
+      categoriaMer: '',
+      abstract: '',
+      TitleBlocks1: '',
+      TitleBlocks2: '',
+      DescriptionBlocks1: '',
+      DescriptionBlocks2: ''
     }
     this.scrollYAnimatedValue = new Animated.Value(0);
     this.recuperoStruttura = this.recuperoStruttura.bind(this);
@@ -33,14 +39,11 @@ export default class DetailsScreen extends Component {
       const id =  getParam('id', '');
       const categoria =  getParam('categoria', '');
       if(categoria === 'Mercato Immobiliare'){
-        this.recuperoStruttura(ArticoliMercatoService, id);
-        categoriaMer = categoria;
+        this.recuperoStruttura(ArticoliMercatoService, id, categoria);
       }else if(categoria === 'Credito'){
-        this.recuperoStruttura(ArticoliCreditoService, id);
-        categoriaMer = categoria;
+        this.recuperoStruttura(ArticoliCreditoService, id, categoria);
       }else if(categoria === 'Curiosita'){
-        this.recuperoStruttura(ArticoliCuriositaService, id);
-        categoriaMer = categoria;
+        this.recuperoStruttura(ArticoliCuriositaService, id, categoria);
       }
     }catch(error) {
       console.error(error);
@@ -51,14 +54,17 @@ export default class DetailsScreen extends Component {
     });
   }
 
-  recuperoStruttura(service, id){
-    image2 = service.findImage2ByID(id);
-    titolo = service.findTitoloByID(id);
-    TitleBlocks1 = service.findTitleBlocks1ByID(id);
-    TitleBlocks2 = service.findTitleBlocks2ByID(id);
-    DescriptionBlocks1 = service.findDescriptionBlocks1ByID(id);
-    DescriptionBlocks2 = service.findDescriptionBlocks2ByID(id);
-    abstract = service.findabstract2ByID(id);
+  recuperoStruttura(service, id, categoria){
+    this.setState({
+      image2: service.findImage2ByID(id),
+      titolo: service.findTitoloByID(id),
+      TitleBlocks1: service.findTitleBlocks1ByID(id),
+      TitleBlocks2: service.findTitleBlocks2ByID(id),
+      DescriptionBlocks1: service.findDescriptionBlocks1ByID(id),
+      DescriptionBlocks2: service.findDescriptionBlocks2ByID(id),
+      abstract: service.findabstract2ByID(id),
+      categoriaMer: categoria
+    });
   }
 
   render() {
@@ -69,7 +75,7 @@ export default class DetailsScreen extends Component {
     });
 
     // Destrutturazione
-    const {loading} = this.state;
+    const {loading, image2, titolo, categoriaMer, abstract, TitleBlocks1, TitleBlocks2, DescriptionBlocks1, DescriptionBlocks2} = this.state;
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }else{
