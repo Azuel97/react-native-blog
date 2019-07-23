@@ -16,6 +16,8 @@ import CardEvidenza from '../components/CardEvidenza';
 // UTILS
 import {width} from '../utils/constants';
 
+// Disabilito l'uscita dei messaggi di warning
+console.disableYellowBox = true;
 
 export default class Home extends Component {
 

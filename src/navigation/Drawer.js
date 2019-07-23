@@ -28,9 +28,48 @@ class NavigationDrawerStructure extends Component {
   }
 }
  
-const HomePage = createStackNavigator({
-  First: {
+const DrawerNavigator = createStackNavigator({
+  Home: {
     screen: Home,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <Image source={require('../assets/image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
+      ),
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+    }),
+  },
+
+  Mercato: {
+    screen: Categorie,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <Image source={require('../assets/image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
+      ),
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+    }),
+  },
+
+  Credito: {
+    screen: Categorie,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <Image source={require('../assets/image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
+      ),
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+    }),
+  },
+
+  Curiosita: {
+    screen: Categorie,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
         <Image source={require('../assets/image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
@@ -45,12 +84,12 @@ const HomePage = createStackNavigator({
 
 const DrawerContainer = createDrawerNavigator(
     {
-        Home: {
-          screen: HomePage,
-        }
+      DrawerNavigator: {
+          screen: DrawerNavigator,
+      }
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'DrawerNavigator',
         contentComponent: DrawerLayout
     }
 )

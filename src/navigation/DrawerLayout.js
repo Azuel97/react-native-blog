@@ -16,7 +16,35 @@ export default class DrawerLayout extends Component {
 
     goTo = (route,categoria) => () => {
         const {navigation} = this.props;
-        navigation.closeDrawer();
+        if(categoria === 'Home'){
+            this.setState({
+                homeActive: true,
+                mercatoActive: false, 
+                creditoActive: false,
+                curiositaActive: false,   
+            })
+        }else if(categoria === 'Mercato Immobiliare'){
+            this.setState({
+                homeActive: false,
+                mercatoActive: true, 
+                creditoActive: false,
+                curiositaActive: false, 
+            })
+        }else if(categoria === 'Credito'){
+            this.setState({
+                homeActive: false,
+                mercatoActive: false, 
+                creditoActive: true,
+                curiositaActive: false, 
+            })
+        }else if(categoria === 'Curiosita'){
+            this.setState({
+                homeActive: false,
+                mercatoActive: false, 
+                creditoActive: false,
+                curiositaActive: true,   
+            })
+        }
         navigation.navigate(route, {categoria});
     }
 
@@ -29,7 +57,7 @@ export default class DrawerLayout extends Component {
             <View style={styles.screenContainer}>
                 <View style={{borderBottomColor:'#666666',borderBottomWidth: 1, width:'88%', marginLeft:15}} />
                 <View style={styles.screenStyle1}>
-                    <Text style={[styles.screenTextStyle, (this.state.homeActive===true) ? styles.selectedTextStyle : null]} onPress={() => this.props.navigation.navigate('Home')}>Home</Text>
+                    <Text style={[styles.screenTextStyle, (this.state.homeActive===true) ? styles.selectedTextStyle : null]} onPress={this.goTo('Home','Home')}>Home</Text>
                 </View>
                 <View style={styles.screenStyle1}>
                     <Text style={[styles.screenTextStyle, (this.state.mercatoActive===true) ? styles.selectedTextStyle : null]} onPress={this.goTo('Mercato','Mercato Immobiliare')}>Mercato Immobiliare</Text>
