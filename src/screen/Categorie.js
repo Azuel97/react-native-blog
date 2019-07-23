@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, Alert } from 'react-native';
-// Import DB
-import Database from '../store/index'
-import CategorieModel from '../store/models/CategorieModel'
-import CategorieService from '../store/controller/CategorieController'
-import ArticoliMercatoModel from '../store/models/ArticoliMercatoModel'
-import ArticoliMercatoService from '../store/controller/ArticoliMercatoController'
-import ArticoliCreditoModel from '../store/models/ArticoliCreditoModel'
-import ArticoliCreditoService from '../store/controller/ArticoliCreditoController'
-import ArticoliCuriositaModel from '../store/models/ArticoliCuriositaModel'
-import ArticoliCuriositaService from '../store/controller/ArticoliCuriositaController'
-// Componenti
-import ReactNativePickerModule from 'react-native-picker-module'
-import CardGrandi from '../components/CardGrandi'
+import { 
+  StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, Alert 
+} from 'react-native';
+// STORE
+import {
+  CategorieController, ArticoliMercatoController, 
+  ArticoliCreditoController, ArticoliCuriositaController
+} from '../store/controller';
+import { CategorieModel }  from '../store/models';
+// COMPONENTS
+import ReactNativePickerModule from 'react-native-picker-module';
+import CardGrandi from '../components/CardGrandi';
+// UTILS
+import {width} from '../utils/constants';
 
-// Recupero le dimensioni dello schermo
-const {width} = Dimensions.get('window');
 
 export default class Categorie extends Component {
 
@@ -44,7 +42,7 @@ export default class Categorie extends Component {
   async componentDidMount(){
     const { navigation : {getParam} } = this.props;
     const categoria =  getParam('categoria', '');
-    const categoriaTrovata = CategorieService.findCategoria(categoria);
+    const categoriaTrovata = CategorieController.findCategoria(categoria);
     if(categoriaTrovata.length === 0){
       try {
         const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/'+categoria);
@@ -59,17 +57,17 @@ export default class Categorie extends Component {
         })
         // Destrutturazione
         const {Id, titolo, descrizione, image} = this.state;
-        CategorieService.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image));
+        CategorieController.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image));
       }catch(error) {
         console.error(error);
       };
     }
     if(categoria === 'Mercato Immobiliare'){
-      this.impostaStruttura(ArticoliMercatoService,categoria);
+      this.impostaStruttura(ArticoliMercatoController, categoria);
     }else if(categoria === 'Credito'){
-      this.impostaStruttura(ArticoliCreditoService,categoria);
+      this.impostaStruttura(ArticoliCreditoController, categoria);
     }else if(categoria === 'Curiosita'){
-      this.impostaStruttura(ArticoliCuriositaService,categoria);
+      this.impostaStruttura(ArticoliCuriositaController, categoria);
     }
   }
 
@@ -80,9 +78,9 @@ export default class Categorie extends Component {
     var articoli = service.findArticoli();
     // Aggiorno gli state
     this.setState({
-      image1: CategorieService.findImageByName(category),
-      categoria1: CategorieService.findCategoriaByName(category),
-      titolo1: CategorieService.findTitoloByName(category),
+      image1: CategorieController.findImageByName(category),
+      categoria1: CategorieController.findCategoriaByName(category),
+      titolo1: CategorieController.findTitoloByName(category),
       data: dateTrovate,
       articoliTrovati: articoli,
       loading: false
@@ -105,7 +103,7 @@ export default class Categorie extends Component {
     const {publish_date, title, abstract, image, id } = item;
     return (
       <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={categoria1} onPress={() => this.props.navigation.navigate('DetailsScreen', {
-        id: id,
+        id,
         categoria: categoria1 })} 
       />
     );
@@ -134,11 +132,11 @@ export default class Categorie extends Component {
               items={data}
               onValueChange={(value, index ) => {
                 if(categoria1 === 'Mercato Immobiliare'){
-                  this.filtroDataArticoli(value,ArticoliMercatoService);
+                  this.filtroDataArticoli(value, ArticoliMercatoController);
                 }else if(categoria1 === 'Credito'){
-                  this.filtroDataArticoli(value,ArticoliCreditoService);
+                  this.filtroDataArticoli(value, ArticoliCreditoController);
                 }else if(categoria1 === 'Curiosita'){
-                  this.filtroDataArticoli(value,ArticoliCuriositaService);
+                  this.filtroDataArticoli(value, ArticoliCuriositaController);
                 }
                 this.setState({
                   selectedValue: value,

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, Animated, Dimensions, ActivityIndicator } from 'react-native';
-// Import DB
-import ArticoliMercatoModel from '../store/models/ArticoliMercatoModel'
-import ArticoliMercatoService from '../store/controller/ArticoliMercatoController'
-import ArticoliCreditoModel from '../store/models/ArticoliCreditoModel'
-import ArticoliCreditoService from '../store/controller/ArticoliCreditoController'
-import ArticoliCuriositaModel from '../store/models/ArticoliCuriositaModel'
-import ArticoliCuriositaService from '../store/controller/ArticoliCuriositaController'
+// STORE
+import {
+  ArticoliMercatoController, ArticoliCreditoController, ArticoliCuriositaController
+} from '../store/controller'
+import {
+  ArticoliMercatoModel, ArticoliCreditoModel, ArticoliCuriositaModel
+} from '../store/models';
+// UTILS
+import {width, height} from '../utils/constants';
 
 const HEADER_MIN_HEIGHT = 40;
 const HEADER_MAX_HEIGHT = 250;
 
-// Recupero le dimensioni dello schermo
-var {height, width} = Dimensions.get('window');
 
 export default class DetailsScreen extends Component {
 
@@ -39,11 +39,11 @@ export default class DetailsScreen extends Component {
       const id =  getParam('id', '');
       const categoria =  getParam('categoria', '');
       if(categoria === 'Mercato Immobiliare'){
-        this.recuperoStruttura(ArticoliMercatoService, id, categoria);
+        this.recuperoStruttura(ArticoliMercatoController, id, categoria);
       }else if(categoria === 'Credito'){
-        this.recuperoStruttura(ArticoliCreditoService, id, categoria);
+        this.recuperoStruttura(ArticoliCreditoController, id, categoria);
       }else if(categoria === 'Curiosita'){
-        this.recuperoStruttura(ArticoliCuriositaService, id, categoria);
+        this.recuperoStruttura(ArticoliCuriositaController, id, categoria);
       }
     }catch(error) {
       console.error(error);

@@ -19,7 +19,7 @@ class NavigationDrawerStructure extends Component {
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           <Image
-            source={require('../image/menu1.png')}
+            source={require('../assets/image/menu1.png')}
             style={{ width: 25, height: 25, marginLeft: 15 }}
           />
         </TouchableOpacity>
@@ -33,7 +33,7 @@ const HomePage = createStackNavigator({
     screen: Home,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Image source={require('../image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
+        <Image source={require('../assets/image/logo1.png')} style={{ width: 120, height: 30, marginLeft: 35 }} />
       ),
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {

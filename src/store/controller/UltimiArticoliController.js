@@ -2,7 +2,7 @@ import Database from '../index';
  
 let repository = Database.getRepository();
  
-let UltimiArticoliService = {
+const UltimiArticoliController = {
 
     // Salvo gli articoli
     saveUltimiArticoli: function(ultimi){
@@ -103,4 +103,4 @@ let UltimiArticoliService = {
 
 };
 
-export default UltimiArticoliService;
+export default UltimiArticoliController;

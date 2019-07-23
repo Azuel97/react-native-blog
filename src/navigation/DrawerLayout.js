@@ -4,28 +4,27 @@ import { StackActions } from 'react-navigation';
 
 export default class DrawerLayout extends Component {
 
-    state ={
-        homeActive: true,
-        mercatoActive: false,
-        creditoActive: false,
-        curiositaActive: false
-    }
+    constructor(props){
+        super(props);
+        this.state = {
+            homeActive: true,
+            mercatoActive: false,
+            creditoActive: false,
+            curiositaActive: false
+        }
+    }   
 
     goTo = (route,categoria) => () => {
         const {navigation} = this.props;
+        navigation.closeDrawer();
         navigation.navigate(route, {categoria});
-        // const pushAction = StackActions.push({
-        //     routeName: route,
-        //     params: { categoria},
-        // });
-        // this.props.navigation.dispatch(pushAction);
     }
 
   render() {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Image source={require('../image/logo1.png')} style={{ width: 150, height: 35, marginTop:80, marginLeft:78 }} />
+                <Image source={require('../assets/image/logo1.png')} style={{ width: 150, height: 35, marginTop:80, marginLeft:78 }} />
             </View>
             <View style={styles.screenContainer}>
                 <View style={{borderBottomColor:'#666666',borderBottomWidth: 1, width:'88%', marginLeft:15}} />
@@ -44,11 +43,11 @@ export default class DrawerLayout extends Component {
             </View>
             <View style={styles.bottom}>
                 <View style={{flexDirection: 'row', paddingBottom:20}}>
-                    <Image source={require('../image/facebook-24.png')} />
-                    <Image source={require('../image/twitter-24.png')} style={{marginLeft:12}}/>
-                    <Image source={require('../image/youtube-24.png')} style={{marginLeft:12}}/>
-                    <Image source={require('../image/instagram-24.png')} style={{marginLeft:12}} />
-                    <Image source={require('../image/linkedin-24.png')} style={{marginLeft:12}} />
+                    <Image source={require('../assets/image/facebook-24.png')} />
+                    <Image source={require('../assets/image/twitter-24.png')} style={{marginLeft:12}}/>
+                    <Image source={require('../assets/image/youtube-24.png')} style={{marginLeft:12}}/>
+                    <Image source={require('../assets/image/instagram-24.png')} style={{marginLeft:12}} />
+                    <Image source={require('../assets/image/linkedin-24.png')} style={{marginLeft:12}} />
                 </View>
                 <Text style={{color:'#fff', fontWeight:'bold',fontSize:12}}>© RE/MAX Italia P.Iva 00170620249</Text>
                 <Text style={{color:'#fff', paddingBottom:40,fontWeight:'bold',fontSize:12}}>Tutti i diritti riservati</Text>
@@ -57,7 +56,6 @@ export default class DrawerLayout extends Component {
     )
   }
 }
-
 
 const styles = StyleSheet.create({
     bottom: {

@@ -2,7 +2,7 @@ import Database from '../index';
  
 let repository = Database.getRepository();
  
-let ArticoloEvidenzaService = {
+const ArticoloEvidenzaController = {
 
     // Salvo gli articoli
     saveArticoliEvidenza: function(evidenza){
@@ -103,4 +103,4 @@ let ArticoloEvidenzaService = {
 
 };
 
-export default ArticoloEvidenzaService;
+export default ArticoloEvidenzaController;

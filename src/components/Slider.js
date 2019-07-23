@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Importo il componente per lo slider
-import Swiper from 'react-native-swiper'
+import Swiper from 'react-native-swiper';
+// Utils
+import {width} from '../utils/constants';
 
-// Recupero le dimensioni dello schermo
-const {width} = Dimensions.get('window');
 
 export default class Slider extends Component {    
 
   sliderArticoli() {
-    return this.props.data.map((struttura) => {
+    const {data} = this.props;
+    return data.map((struttura) => {
       const {id,image,categoria,titolo} = struttura;
       return(
         <View style={styles.slide1} key={id}>
-          <Image style={{width:width, height:250}} source={{uri: `${image}`}} />
+          <Image style={{width, height:250}} source={{uri: `${image}`}} />
           <Text style={styles.cat}>{categoria}</Text>
           <Text style={styles.text}>{titolo}</Text>
         </View>
@@ -43,30 +44,30 @@ Slider.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-    containerSlider:{
-      height:250,
-      width: width
+  containerSlider:{
+    height:250,
+    width
+  },
+  slide1: {
+    flex:1,
+    backgroundColor: '#9DD6EB'
+  },
+  text: {
+    position: 'absolute',
+    top: 130,
+    left: 10,
+    right: 15,
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  cat: {
+    position: 'absolute',
+    top: 110,
+    left: 10,
+    right: 15,
+    color: 'red',
+    fontSize: 18,
+    fontWeight: 'bold',
     },
-    slide1: {
-      flex:1,
-      backgroundColor: '#9DD6EB'
-    },
-    text: {
-      position: 'absolute',
-      top: 130,
-      left: 10,
-      right: 15,
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    cat: {
-      position: 'absolute',
-      top: 110,
-      left: 10,
-      right: 15,
-      color: 'red',
-      fontSize: 18,
-      fontWeight: 'bold',
-      },
-  });
+});

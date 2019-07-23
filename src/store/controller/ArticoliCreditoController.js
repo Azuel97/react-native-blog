@@ -2,7 +2,7 @@ import Database from '../index';
  
 let repository = Database.getRepository();
  
-let ArticoliCreditoService = {
+const ArticoliCreditoController = {
 
     // Salvo gli articoli
     saveArticoliCredito: function(mercato){
@@ -132,4 +132,4 @@ let ArticoliCreditoService = {
 
 };
 
-export default ArticoliCreditoService;
+export default ArticoliCreditoController;

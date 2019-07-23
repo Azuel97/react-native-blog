@@ -6,12 +6,11 @@ import { withNavigation } from 'react-navigation';
 class Scroll extends Component {
 
   cardArticoli() {
-    return this.props.data.map((struttura) => {
-      // Destrutturazione
+    const {data, navigation : { navigate }} = this.props;
+    return data.map((struttura) => {
       const {id, image, categoria, title, abstract} = struttura;
-      const {navigation : { navigate }} = this.props;
       return(
-        <TouchableOpacity key={id} onPress={() => navigate('DetailsScreen',{id:id,categoria:categoria})}>
+        <TouchableOpacity key={id} onPress={() => navigate('DetailsScreen',{id,categoria})}>
           <View style={styles.mercatImmo}>
             <Image style={{width:160, height:160, backgroundColor:'lightblue',borderRadius:3}} source={{uri: `${image}`}} />
             <View style={{width:160, paddingTop:7}}>
@@ -34,8 +33,6 @@ class Scroll extends Component {
   }
 }
 
-export default withNavigation(Scroll);
-
 Scroll.propTypes = {
   data: PropTypes.array
 }
@@ -43,10 +40,12 @@ Scroll.propTypes = {
 Scroll.defaultProps = {
   data: []
 }
+
+export default withNavigation(Scroll);
     
 const styles = StyleSheet.create({
-    mercatImmo: {
-        marginLeft: 20,
-        marginTop:15
-    }
+  mercatImmo: {
+    marginLeft: 20,
+    marginTop:15
+  }
 });

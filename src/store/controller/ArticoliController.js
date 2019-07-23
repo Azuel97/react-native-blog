@@ -2,7 +2,7 @@ import Database from '../index';
  
 let repository = Database.getRepository();
  
-let ArticoliService = {
+const ArticoliController = {
 
     // Recupero tutti gli articoli
     findAllArticle: function(){
@@ -60,4 +60,4 @@ let ArticoliService = {
 
 };
 
-export default ArticoliService;
+export default ArticoliController;

@@ -2,7 +2,7 @@ import Database from '../index';
  
 let repository = Database.getRepository();
  
-let CategorieService = {
+const CategorieController = {
 
     findCategoria: function(categoria){
         return repository.objects('Categorie').filtered('title == $0',categoria)
@@ -67,4 +67,4 @@ let CategorieService = {
 
 };
 
-export default CategorieService;
+export default CategorieController;
