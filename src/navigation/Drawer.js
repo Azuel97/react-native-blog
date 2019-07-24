@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
-// Importo le activity
+// ACTIVITY
 import Home from '../screen/Home';
-// Importo il layout del drawer
-import DrawerLayout from '../navigation/DrawerLayout';
 import Categorie from '../screen/Categorie';
+// LAYOUT
+import DrawerLayout from '../navigation/DrawerLayout';
+
 
 class NavigationDrawerStructure extends Component {
   // Struttura per il drawer navigation
@@ -85,12 +86,12 @@ const DrawerNavigator = createStackNavigator({
 const DrawerContainer = createDrawerNavigator(
     {
       DrawerNavigator: {
-          screen: DrawerNavigator,
+        screen: DrawerNavigator,
       }
     },
     {
-        initialRouteName: 'DrawerNavigator',
-        contentComponent: DrawerLayout
+      initialRouteName: 'DrawerNavigator',
+      contentComponent: DrawerLayout
     }
 )
 

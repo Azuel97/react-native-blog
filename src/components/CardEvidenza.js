@@ -1,40 +1,41 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { withNavigation } from 'react-navigation';
+// COMPONENTS
+import BaseText from './BaseText';
 
-class CardEvidenza extends Component {
+const CardImage = styled.Image`
+  width: 340px;
+  height: 180px;
+  margin-top: 20;
+  border-radius: 3;
+`;
 
-  articoloEvidenza() {
-    const {data, navigation : {navigate} } = this.props;
-    return data.map((struttura) => {
-      const {id, image, category, title, abstract} = struttura;
-      return(
-        <TouchableOpacity key={id} onPress={() => navigate('DetailsScreen',{id,categoria:category})}>
-          <Image style={{width:340 , height: 180, marginTop:20,borderRadius:3}} source={{uri: `${image}`}}/>
-          <View style={{width:340}}>
-            <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{category}</Text>
-            <Text style={{fontWeight:'bold',fontSize:18,paddingTop:5}} numberOfLines={2}>{title}</Text>
-            <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{abstract}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    });
-  }
-
-  render() {
-    return (
-      this.articoloEvidenza()
-    );  
-  }
-}
+const CardEvidenza = ({ data, onPress }) => {
+  return data.map((struttura) => {
+    const {id, image, category, title, abstract} = struttura;
+    return(
+      <TouchableOpacity key={id} onPress={onPress}>
+        <CardImage source={{uri: `${image}`}}/>
+        <View style={{width:340}}>
+          <BaseText color={'red'} weight={'bold'} paddingTop={5}>{category}</BaseText>
+          <BaseText size={18} weight={'bold'} paddingTop={5} numberOfLines={2}>{title}</BaseText>
+          <BaseText paddingTop={5} numberOfLines={3}>{abstract}</BaseText>
+        </View>
+      </TouchableOpacity>
+    );
+  });
+};
 
 CardEvidenza.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  onPress : PropTypes.func,
 }
  
 CardEvidenza.defaultProps = {
-  data: []
+  data: [],
+  onPress: () => {},
 }
 
-export default withNavigation(CardEvidenza);
+export default (CardEvidenza);

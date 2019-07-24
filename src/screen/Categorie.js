@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { 
-  StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, ActivityIndicator, Alert 
-} from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 // STORE
 import {
   CategorieController, ArticoliMercatoController, 
@@ -12,7 +10,7 @@ import { CategorieModel }  from '../store/models';
 import ReactNativePickerModule from 'react-native-picker-module';
 import CardGrandi from '../components/CardGrandi';
 // UTILS
-import {width} from '../utils/constants';
+import { width } from '../utils/constants';
 
 
 export default class Categorie extends Component {
@@ -39,23 +37,21 @@ export default class Categorie extends Component {
     this.impostaStruttura = this.impostaStruttura.bind(this);
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     const { navigation : {getParam} } = this.props;
     const categoria =  getParam('categoria', '');
     const categoriaTrovata = CategorieController.findCategoria(categoria);
     if(categoriaTrovata.length === 0){
       try {
-        const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/categories/'+categoria);
+        const response = await fetch(`https://blog.remax.sdch.develondigital.com/api/v1/categories/${categoria}`);
         const responseJson = await response.json();
-        // Destrutturazione
         const {id, name, meta, image_complete_url} = responseJson.category;
         this.setState({
           Id : id,
           titolo : name,
           descrizione : meta.description,
-          image : image_complete_url
+          image : image_complete_url,
         })
-        // Destrutturazione
         const {Id, titolo, descrizione, image} = this.state;
         CategorieController.saveArticoliSlider(new CategorieModel(Id, titolo, descrizione, image));
       }catch(error) {
@@ -74,7 +70,7 @@ export default class Categorie extends Component {
   impostaStruttura(service,category) {
     // Recupero le date di pubblicazione degli articoli
     var dateTrovate = service.findDatePubblicazione();
-    // Recupero gli articoli a seconda della data che gli viene passato
+    // Recupero gli articoli
     var articoli = service.findArticoli();
     // Aggiorno gli state
     this.setState({
@@ -112,50 +108,49 @@ export default class Categorie extends Component {
   render() {
     const {loading, data, selectedValue, articoliTrovati,image1, categoria1, titolo1} = this.state;
     if(loading){
-      return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
-    }else{
-      return (
-        <View style={{flex:1}}>
-          <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
-          <Text style={styles.cat}>{categoria1}</Text>
-          <Text style={styles.text}>{titolo1}</Text>
-            
-          <View style={{flexDirection: 'row',backgroundColor:'#F7F7F7',marginTop:25,width:200,height:40,marginLeft:15}}>
-            <TouchableOpacity style={{width:170,height:40}} onPress={() => {this.pickerRef.show()}}>
-              <Text style={{fontSize: 18,paddingTop:10,paddingLeft:10,paddingBottom:10}}>{selectedValue}</Text>
-            </TouchableOpacity>
-            <Text style={{color:'#DC1C2E',fontSize: 18,paddingTop:10,paddingBottom:10}}>▼</Text>
-            <ReactNativePickerModule
-              pickerRef={e => this.pickerRef = e}
-              value={selectedValue}
-              title={"Seleziona data"}
-              items={data}
-              onValueChange={(value, index ) => {
-                if(categoria1 === 'Mercato Immobiliare'){
-                  this.filtroDataArticoli(value, ArticoliMercatoController);
-                }else if(categoria1 === 'Credito'){
-                  this.filtroDataArticoli(value, ArticoliCreditoController);
-                }else if(categoria1 === 'Curiosita'){
-                  this.filtroDataArticoli(value, ArticoliCuriositaController);
-                }
-                this.setState({
-                  selectedValue: value,
-                  selectedIndex: index,
-                })
-              }} />
-          </View>
-
-          <View style={{paddingTop: 10,flex:1,paddingBottom:15}}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={articoliTrovati}
-              renderItem={({item}) => this.renderListItem(item,categoria1)}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-        </View>
-      );
+      <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
     }
+    return (
+      <View style={{flex:1}}>
+        <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
+        <Text style={styles.cat}>{categoria1}</Text>
+        <Text style={styles.text}>{titolo1}</Text>
+            
+        <View style={{flexDirection: 'row',backgroundColor:'#F7F7F7',marginTop:25,width:200,height:40,marginLeft:15}}>
+          <TouchableOpacity style={{width:170,height:40}} onPress={() => {this.pickerRef.show()}}>
+            <Text style={{fontSize: 18,paddingTop:10,paddingLeft:10,paddingBottom:10}}>{selectedValue}</Text>
+          </TouchableOpacity>
+          <Text style={{color:'#DC1C2E',fontSize: 18,paddingTop:10,paddingBottom:10}}>▼</Text>
+          <ReactNativePickerModule
+            pickerRef={e => this.pickerRef = e}
+            value={selectedValue}
+            title={"Seleziona data"}
+            items={data}
+            onValueChange={(value, index ) => {
+              if(categoria1 === 'Mercato Immobiliare'){
+                this.filtroDataArticoli(value, ArticoliMercatoController);
+              }else if(categoria1 === 'Credito'){
+                this.filtroDataArticoli(value, ArticoliCreditoController);
+              }else if(categoria1 === 'Curiosita'){
+                this.filtroDataArticoli(value, ArticoliCuriositaController);
+              }
+              this.setState({
+                selectedValue: value,
+                selectedIndex: index,
+              })
+          }} />
+        </View>
+
+        <View style={{paddingTop: 10,flex:1,paddingBottom:15}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={articoliTrovati}
+            renderItem={({item}) => this.renderListItem(item,categoria1)}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
+      </View>
+    );
   }
 }
  

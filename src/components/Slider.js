@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Importo il componente per lo slider
 import Swiper from 'react-native-swiper';
 // Utils
-import {width} from '../utils/constants';
+import { width } from '../utils/constants';
 
 
 export default class Slider extends Component {    

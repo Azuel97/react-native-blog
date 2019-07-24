@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default class CardGrandi extends Component {
 
-  render() {
-    const {onPress, image, categoria, publish_date, title, abstract} = this.props;
-    return (
-      <View style={styles.mercatImmo}>
-        <TouchableOpacity onPress={onPress}>
+const CardGrandi = ({ onPress, image, categoria, publish_date, title, abstract }) => {
+  return (
+    <View style={styles.mercatImmo}>
+      <TouchableOpacity onPress={onPress}>
         <Image style={{width:340 , height: 180}} source={{uri: `${image}`}}/>
         <View style={{width:340}}>
           <View style={{justifyContent: 'space-between',flex: 1,flexDirection: 'row',}}>
             <View>
               <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{categoria}</Text>
-             </View>
+            </View>
             <View>
               <Text style={{color:'grey',fontSize:16, fontWeight:'bold',paddingTop:5}}>{publish_date}</Text>
             </View>
-            </View>
-              <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} numberOfLines={2}>{title}</Text>
-              <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{abstract}</Text>
-            </View>
-        </TouchableOpacity>
-      </View>
-    );  
-  }
+          </View>
+          <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} numberOfLines={2}>{title}</Text>
+          <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{abstract}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  ); 
 }
 
 CardGrandi.propTypes = {
@@ -53,3 +50,5 @@ const styles = StyleSheet.create({
     paddingBottom:15 
   }
 });
+
+export default (CardGrandi);

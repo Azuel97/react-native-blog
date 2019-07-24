@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 // STORE
 import {
   ArticoliMercatoController, ArticoliCreditoController, ArticoliCuriositaController,
   ArticoliController, ArticoloEvidenzaController, UltimiArticoliController
 } from '../store/controller';
-import { 
+import {
   ArticoliMercatoModel, ArticoliCreditoModel, ArticoliCuriositaModel,
   ArticoloEvidenzaModel, UltimiArticoliModel, ArticoliModel
 } from '../store/models';
@@ -14,10 +14,8 @@ import Slider from '../components/Slider';
 import Scroll from '../components/Scroll';
 import CardEvidenza from '../components/CardEvidenza';
 // UTILS
-import {width} from '../utils/constants';
+import { width } from '../utils/constants';
 
-// Disabilito l'uscita dei messaggi di warning
-console.disableYellowBox = true;
 
 export default class Home extends Component {
 
@@ -37,7 +35,7 @@ export default class Home extends Component {
     };
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     const articoliTrovati = ArticoliController.findAllArticle();
     if(articoliTrovati.length === 0){
       try {
@@ -92,39 +90,39 @@ export default class Home extends Component {
 
   render() {
     const {loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli} = this.state;
+    const { navigation : {navigate} } = this.props;
     if(loading){
       return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
-    }else{
-      return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.containerSlider}>
-            <Slider data={articoliSlider} />
-          </View>
-          <View style={styles.categoria}>
-            <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
-            <Scroll data={articoliMercato} />
-          </View>
-          <View style={styles.categoria}>
-            <Text style={styles.stileCategoria}>Credito</Text>
-            <Scroll data={articoliCredito} />
-          </View>
-          <View style={styles.categoria}>
-            <Text style={styles.stileCategoria}>Curiosità</Text>
-            <Scroll data={articoliCuriosita} />
-          </View>
-          <View style={styles.categoria}>
-            <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
-            <View style={{marginLeft:17}}>
-              <CardEvidenza data={articoloEvidenza} />
-            </View>
-          </View>
-          <View style={styles.ultimiArticoli}>
-            <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
-            <Scroll data={ultimiArticoli}  />
-          </View>
-        </ScrollView>
-      );
     }
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.containerSlider}>
+          <Slider data={articoliSlider} />
+        </View>
+        <View style={styles.categoria}>
+          <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
+          <Scroll data={articoliMercato} />
+        </View>
+        <View style={styles.categoria}>
+          <Text style={styles.stileCategoria}>Credito</Text>
+          <Scroll data={articoliCredito} />
+        </View>
+        <View style={styles.categoria}>
+          <Text style={styles.stileCategoria}>Curiosità</Text>
+          <Scroll data={articoliCuriosita} />
+        </View>
+        <View style={styles.categoria}>
+          <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
+          <View style={{marginLeft:17}}>
+            <CardEvidenza data={articoloEvidenza} onPress={() => navigate('DetailsScreen',{id:articoloEvidenza.id,categoria:articoloEvidenza.category})}/>
+          </View>
+        </View>
+        <View style={styles.ultimiArticoli}>
+          <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
+          <Scroll data={ultimiArticoli}  />
+        </View>
+      </ScrollView>
+    );
   }
 }
  
