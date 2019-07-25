@@ -1,10 +1,40 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Animated, ActivityIndicator } from 'react-native';
+import { StyleSheet, ScrollView, Animated } from 'react-native';
+import styled from 'styled-components';
 // STORE
 import { ArticoliMercatoController, ArticoliCreditoController, ArticoliCuriositaController } from '../store/controller'
 import { ArticoliMercatoModel, ArticoliCreditoModel, ArticoliCuriositaModel } from '../store/models';
 // UTILS
 import { width, height } from '../utils/constants';
+// COMPONENTS
+import BaseText from '../components/BaseText';
+import BaseImage from '../components/BaseImage';
+import Spinner from '../components/Spinner';
+
+// STYLED COMPONENTS
+const CategoriaImage = styled(BaseText)`
+  position: absolute;
+  top: 45;
+  left: 20;
+`;
+
+const TitoloImage = styled(BaseText)`
+  position: absolute;
+  top: 65;
+  left: 20;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  margin-bottom: 30;
+`;
+
+const ContainerDescrizione = styled.View`
+  padding-left: 15;
+  padding-right: 15;
+  padding-top: 20;
+`;
 
 const HEADER_MIN_HEIGHT = 40;
 const HEADER_MAX_HEIGHT = 250;
@@ -71,59 +101,43 @@ export default class DetailsScreen extends Component {
 
     const {loading, image2, titolo, categoriaMer, abstract, TitleBlocks1, TitleBlocks2, DescriptionBlocks1, DescriptionBlocks2} = this.state;
     if(loading){
-      <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
+      return <Spinner />
     }
     return (
-      <View style={styles.container}> 
+      <Container> 
         <ScrollView contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this.scrollYAnimatedValue } } }]
         )} > 
-          <View style={{paddingLeft:15,paddingRight:15,paddingTop:20}}>
-            <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} >{abstract}</Text>
-            <Text style={{fontWeight:'bold',fontSize:16,paddingTop:20}} >{TitleBlocks1}</Text>
-            <Text style={{fontSize:16,paddingTop:15}} >{DescriptionBlocks1}</Text>
-            <Text style={{fontWeight:'bold',fontSize:18,paddingTop:15}} >{TitleBlocks2}</Text>
-            <Text style={{fontSize:16,paddingTop:15}} >{DescriptionBlocks2}</Text>
-          </View>
+          <ContainerDescrizione>
+            <BaseText weight={'bold'} size={20} paddingTop={5}>{abstract}</BaseText>
+            <BaseText weight={'bold'} paddingTop={20}>{TitleBlocks1}</BaseText>
+            <BaseText paddingTop={15}>{DescriptionBlocks1}</BaseText>
+            <BaseText weight={'bold'} size={18} paddingTop={15}>{TitleBlocks2}</BaseText>
+            <BaseText paddingTop={15}>{DescriptionBlocks2}</BaseText>
+          </ContainerDescrizione>
         </ScrollView>
 
         <Animated.View style={[styles.animatedHeaderContainer, { height: headerHeight }]}>
-            <Image style={{width:width , height: HEADER_MAX_HEIGHT,borderRadius:8}} source={{uri: `${image2}`}}/>
-            <Text style={{fontWeight:'bold',fontSize:16,color:'red',position:'absolute',top:45,left:20}} >{categoriaMer}</Text>
-            <Text style={{fontWeight:'bold',fontSize:18,color:'white',position:'absolute',top:65,left:20,paddingRight:30}} >{titolo}</Text>
+            <BaseImage width={width} height={HEADER_MAX_HEIGHT} radius={8} source={{uri: `${image2}`}}/>
+            <CategoriaImage weight={'bold'} color={'red'}>{categoriaMer}</CategoriaImage>
+            <TitoloImage weight={'bold'} size={18} color={'white'} paddingRight={30}>{titolo}</TitoloImage>
         </Animated.View>      
 
-      </View>
+      </Container>
     );
   }
 }
  
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    marginBottom:30
-  },
   animatedHeaderContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 22,
-    paddingTop:20
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    height: 80
- }
+  }
 });

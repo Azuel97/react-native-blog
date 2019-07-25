@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // COMPONENTS
@@ -12,17 +12,21 @@ const CardImage = styled.Image`
   border-radius: 3;
 `;
 
+const Container = styled.View`
+  width: 340;
+`;
+
 const CardEvidenza = ({ data, onPress }) => {
   return data.map((struttura) => {
     const {id, image, category, title, abstract} = struttura;
     return(
       <TouchableOpacity key={id} onPress={onPress}>
         <CardImage source={{uri: `${image}`}}/>
-        <View style={{width:340}}>
+        <Container>
           <BaseText color={'red'} weight={'bold'} paddingTop={5}>{category}</BaseText>
           <BaseText size={18} weight={'bold'} paddingTop={5} numberOfLines={2}>{title}</BaseText>
           <BaseText paddingTop={5} numberOfLines={3}>{abstract}</BaseText>
-        </View>
+        </Container>
       </TouchableOpacity>
     );
   });

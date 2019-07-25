@@ -1,27 +1,46 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+// COMPONENTS
+import BaseText from './BaseText';
 
+const Container = styled.View`
+  margin-left: 17;
+  margin-top: 15;
+  padding-bottom: 15;
+`;
+
+const CardImage = styled.Image`
+  width: 340;
+  height: 180;
+`;
+
+const ContainerDescrizione = styled.View`
+  width: 340;
+`;
+
+const ContainerInterno = styled.View`
+  justify-content: space-between;
+  flex: 1;
+  flex-direction: row;
+`;
 
 const CardGrandi = ({ onPress, image, categoria, publish_date, title, abstract }) => {
   return (
-    <View style={styles.mercatImmo}>
+    <Container>
       <TouchableOpacity onPress={onPress}>
-        <Image style={{width:340 , height: 180}} source={{uri: `${image}`}}/>
-        <View style={{width:340}}>
-          <View style={{justifyContent: 'space-between',flex: 1,flexDirection: 'row',}}>
-            <View>
-              <Text style={{color:'red',fontSize:16,fontWeight:'bold',paddingTop:5}}>{categoria}</Text>
-            </View>
-            <View>
-              <Text style={{color:'grey',fontSize:16, fontWeight:'bold',paddingTop:5}}>{publish_date}</Text>
-            </View>
-          </View>
-          <Text style={{fontWeight:'bold',fontSize:20,paddingTop:5}} numberOfLines={2}>{title}</Text>
-          <Text style={{fontSize:16,paddingTop:5}} numberOfLines={3}>{abstract}</Text>
-        </View>
+        <CardImage source={{uri: `${image}`}}/>
+        <ContainerDescrizione>
+          <ContainerInterno>   
+            <BaseText color={'red'} weight={'bold'} paddingTop={5}>{categoria}</BaseText>
+            <BaseText color={'grey'} weight={'bold'} paddingTop={5}>{publish_date}</BaseText>
+          </ContainerInterno>
+          <BaseText weight={'bold'} size={20} paddingTop={5} numberOfLines={2}>{title}</BaseText>
+          <BaseText paddingTop={5} numberOfLines={3}>{abstract}</BaseText>
+        </ContainerDescrizione>
       </TouchableOpacity>
-    </View>
+    </Container>
   ); 
 }
 
@@ -42,13 +61,5 @@ CardGrandi.defaultProps = {
   image: '',
   onPress: () => {},
 }
-    
-const styles = StyleSheet.create({
-  mercatImmo: {
-    marginLeft: 17,
-    marginTop:15,  
-    paddingBottom:15 
-  }
-});
 
 export default (CardGrandi);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { ScrollView } from 'react-native';
+import styled from 'styled-components';
 // STORE
 import {
   ArticoliMercatoController, ArticoliCreditoController, ArticoliCuriositaController,
@@ -13,9 +14,31 @@ import {
 import Slider from '../components/Slider';
 import Scroll from '../components/Scroll';
 import CardEvidenza from '../components/CardEvidenza';
-// UTILS
-import { width } from '../utils/constants';
+import Spinner from '../components/Spinner';
+import BaseText from '../components/BaseText';
 
+// STYLED COMPONENTS
+const ContainerCategorie = styled.View`
+  padding-top: 25;
+`;
+
+const ContainerUltimi = styled.View`
+  padding-top: 40;
+  padding-bottom: 55;
+`;
+
+const ContainerEvidenza = styled.View`
+  margin-left: 17;
+`;
+
+const TextCategory = styled(BaseText)`
+  font-size: 20;
+  font-weight: bold;
+  padding-left: 10;
+`;
+
+// Disabilito l'uscita dei messaggi di warning
+console.disableYellowBox = true;
 
 export default class Home extends Component {
 
@@ -42,35 +65,33 @@ export default class Home extends Component {
         const response = await fetch('https://blog.remax.sdch.develondigital.com/api/v1/pages');
         const responseJson = await response.json();
         // Destrutturazione
-        const {highlighted_articles, featured_categories, featured_article, last_articles} = responseJson.page;
+        const {highlighted_articles:highlightedaArticles, featured_categories, featured_article:featuredArticle, last_articles:lastArticles} = responseJson.page;
         // Salvo i dati recuperati della API
-        const highlightedaArticles = highlighted_articles;
         const featured_categories0 = featured_categories[0].articles;
         const featured_categories1 = featured_categories[1].articles;
         const featured_categories2 = featured_categories[2].articles;
-        const featuredArticle = featured_article;
-        const lastArticles = last_articles;
         //Salvo gli articoli per lo Slider
-        highlightedaArticles.forEach(element => {
-          ArticoliController.saveArticoliSlider(new ArticoliModel(element.id,element.title,element.image_complete_url,element.category.name));
+        highlightedaArticles.forEach( ({id,title,image_complete_url,category}) => {
+          ArticoliController.saveArticoliSlider(new ArticoliModel(id, title, image_complete_url, category.name));
         });
         // Salvo gli articoli per la categoria ' Mercato Immobiliare '
-        featured_categories0.forEach(element => {
-          ArticoliMercatoController.saveArticoliMercato(new ArticoliMercatoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        featured_categories0.forEach( ({id,title,abstract,thumbnail_complete_url,publish_date}) => {
+          ArticoliMercatoController.saveArticoliMercato(new ArticoliMercatoModel(id, title, abstract, thumbnail_complete_url, publish_date));
         });
         // Salvo gli articoli per la categoria ' Credito '
-        featured_categories1.forEach(element => {
-          ArticoliCreditoController.saveArticoliCredito(new ArticoliCreditoModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        featured_categories1.forEach( ({id,title,abstract,thumbnail_complete_url,publish_date}) => {
+          ArticoliCreditoController.saveArticoliCredito(new ArticoliCreditoModel(id, title, abstract, thumbnail_complete_url, publish_date));
         });
         // Salvo gli articoli per la categoria ' Curiosità '
-        featured_categories2.forEach(element => {
-          ArticoliCuriositaController.saveArticoliCuriosita(new ArticoliCuriositaModel(element.id,element.title,element.abstract,element.thumbnail_complete_url,element.publish_date));
+        featured_categories2.forEach( ({id,title,abstract,thumbnail_complete_url,publish_date}) => {
+          ArticoliCuriositaController.saveArticoliCuriosita(new ArticoliCuriositaModel(id, title, abstract, thumbnail_complete_url, publish_date));
         });
         // Salvo l'articolo in evidenza
-        ArticoloEvidenzaController.saveArticoliEvidenza(new ArticoloEvidenzaModel(featuredArticle.id,featuredArticle.title,featuredArticle.abstract,featuredArticle.thumbnail_complete_url,featuredArticle.category.name))
+        const {id, title, abstract, thumbnail_complete_url, category} = featuredArticle;
+        ArticoloEvidenzaController.saveArticoliEvidenza(new ArticoloEvidenzaModel(id, title, abstract, thumbnail_complete_url, category.name));
         // Salvo gli articoli per la sezione ' Ultimi Articoli '
-        lastArticles.forEach(element => {
-          UltimiArticoliController.saveUltimiArticoli(new UltimiArticoliModel(element.id,element.title,element.thumbnail_complete_url,element.publish_date,element.category.name));
+        lastArticles.forEach( ({id,title,thumbnail_complete_url,publish_date,category}) => {
+          UltimiArticoliController.saveUltimiArticoli(new UltimiArticoliModel(id, title, thumbnail_complete_url, publish_date, category.name));
         });
       }catch(error) {
         console.error(error);
@@ -89,64 +110,38 @@ export default class Home extends Component {
   }
 
   render() {
-    const {loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli} = this.state;
+    const { loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli  } = this.state;
     const { navigation : {navigate} } = this.props;
+    const { id, category} = articoloEvidenza
     if(loading){
-      return <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
+      return <Spinner />
     }
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.containerSlider}>
-          <Slider data={articoliSlider} />
-        </View>
-        <View style={styles.categoria}>
-          <Text style={styles.stileCategoria}>Mercato Immobiliare</Text>
+        <Slider data={articoliSlider} />
+        <ContainerCategorie>
+          <TextCategory >Mercato Immobiliare</TextCategory>
           <Scroll data={articoliMercato} />
-        </View>
-        <View style={styles.categoria}>
-          <Text style={styles.stileCategoria}>Credito</Text>
+        </ContainerCategorie>
+        <ContainerCategorie>
+          <TextCategory>Credito</TextCategory>
           <Scroll data={articoliCredito} />
-        </View>
-        <View style={styles.categoria}>
-          <Text style={styles.stileCategoria}>Curiosità</Text>
+        </ContainerCategorie>
+        <ContainerCategorie>
+          <TextCategory>Curiosità</TextCategory>
           <Scroll data={articoliCuriosita} />
-        </View>
-        <View style={styles.categoria}>
-          <Text style={styles.stileCategoria}>Articolo In Evidenza</Text>
-          <View style={{marginLeft:17}}>
-            <CardEvidenza data={articoloEvidenza} onPress={() => navigate('DetailsScreen',{id:articoloEvidenza.id,categoria:articoloEvidenza.category})}/>
-          </View>
-        </View>
-        <View style={styles.ultimiArticoli}>
-          <Text style={styles.stileCategoria}>Gli Ultimi Articoli</Text>
+        </ContainerCategorie>
+        <ContainerCategorie>
+          <TextCategory>Articolo In Evidenza</TextCategory>
+          <ContainerEvidenza>
+            <CardEvidenza data={articoloEvidenza} onPress={() => navigate('DetailsScreen',{id, categoria: category})}/>
+          </ContainerEvidenza>
+        </ContainerCategorie>
+        <ContainerUltimi>
+          <TextCategory>Gli Ultimi Articoli</TextCategory>
           <Scroll data={ultimiArticoli}  />
-        </View>
+        </ContainerUltimi>
       </ScrollView>
     );
   }
 }
- 
-const styles = StyleSheet.create({
-  containerSlider:{
-    height:250,
-    width,
-  },
-  categoria: {
-    paddingTop: 25
-  },
-  ultimiArticoli: {
-    paddingTop: 40,
-    paddingBottom: 55
-  },
-  stileCategoria: {
-    fontSize:20,
-    fontWeight:'bold',
-    marginLeft:10
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80
-  }
-});

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
+import styled from 'styled-components';
 // STORE
 import {
   CategorieController, ArticoliMercatoController, 
@@ -9,17 +10,51 @@ import { CategorieModel }  from '../store/models';
 // COMPONENTS
 import ReactNativePickerModule from 'react-native-picker-module';
 import CardGrandi from '../components/CardGrandi';
+import Spinner from '../components/Spinner';
+import BaseText from '../components/BaseText';
+import BaseImage from '../components/BaseImage';
 // UTILS
 import { width } from '../utils/constants';
+
+// STYLED COMPONENTS
+const TextCategoria = styled(BaseText)`
+  position: absolute;
+  top: 95;
+  left: 10;
+  right: 15;
+`;
+
+const TextTitolo = styled(BaseText)`
+  position: absolute;
+  top: 130;
+  left: 10;
+  right: 15;
+`;
+
+const Container = styled.View`
+  flex: 1;
+`;
+
+const ContainerPicker = styled.View`
+  flex-direction: row;
+  background-color: #F7F7F7;
+  margin-top:25;
+  width: 200;
+  height: 40;
+  margin-left: 15;
+`;
+
+const ContainerList = styled.View`
+  flex: 1;
+  padding-top: 10;
+  padding-bottom: 15;
+`;
 
 
 export default class Categorie extends Component {
 
-  // Istanziazione del componente
   constructor(props) {
-    // Invocare il costruttore della classe base 
     super(props);
-    // Assegno i valori di default
     this.state = {
       loading: true,
       image1: '',
@@ -108,19 +143,19 @@ export default class Categorie extends Component {
   render() {
     const {loading, data, selectedValue, articoliTrovati,image1, categoria1, titolo1} = this.state;
     if(loading){
-      <ActivityIndicator style={styles.activityIndicator} color = 'red' size = 'large' />
+      return <Spinner />
     }
     return (
-      <View style={{flex:1}}>
-        <Image style={{width:width , height: 200}} source={{uri: `${image1}`}} />
-        <Text style={styles.cat}>{categoria1}</Text>
-        <Text style={styles.text}>{titolo1}</Text>
+      <Container>
+        <BaseImage  width={width} height={200} source={{uri: `${image1}`}} />
+        <TextCategoria size={26} weight={'bold'} color={'#fff'}>{categoria1}</TextCategoria>
+        <TextTitolo color={'#fff'} weight={'bold'} >{titolo1}</TextTitolo>
             
-        <View style={{flexDirection: 'row',backgroundColor:'#F7F7F7',marginTop:25,width:200,height:40,marginLeft:15}}>
+        <ContainerPicker>
           <TouchableOpacity style={{width:170,height:40}} onPress={() => {this.pickerRef.show()}}>
-            <Text style={{fontSize: 18,paddingTop:10,paddingLeft:10,paddingBottom:10}}>{selectedValue}</Text>
+            <BaseText size={18} paddingTop={10} paddingLeft={10} paddingBottom={10}>{selectedValue}</BaseText>
           </TouchableOpacity>
-          <Text style={{color:'#DC1C2E',fontSize: 18,paddingTop:10,paddingBottom:10}}>▼</Text>
+          <BaseText size={18} color={'#DC1C2E'} paddingTop={10} paddingBottom={10}>▼</BaseText>
           <ReactNativePickerModule
             pickerRef={e => this.pickerRef = e}
             value={selectedValue}
@@ -139,49 +174,17 @@ export default class Categorie extends Component {
                 selectedIndex: index,
               })
           }} />
-        </View>
+        </ContainerPicker>
 
-        <View style={{paddingTop: 10,flex:1,paddingBottom:15}}>
+        <ContainerList>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={articoliTrovati}
             renderItem={({item}) => this.renderListItem(item,categoria1)}
             keyExtractor={(item, index) => index.toString()}
           />
-        </View>
-      </View>
+        </ContainerList>
+      </Container>
     );
   }
 }
- 
-const styles = StyleSheet.create({
-  text: {
-    position: 'absolute',
-    top: 130,
-    left: 10,
-    right: 15,
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  cat: {
-    position: 'absolute',
-    top: 95,
-    left: 10,
-    right: 15,
-    color: '#fff',
-    fontSize: 26,
-    fontWeight: 'bold',
-    },
-  mercatImmo: {
-    marginLeft: 17,
-    marginTop:15,  
-    paddingBottom:15 
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80
- }
-});

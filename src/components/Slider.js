@@ -1,36 +1,60 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-// Importo il componente per lo slider
+import styled from 'styled-components';
+// SLIDER DI REACT
 import Swiper from 'react-native-swiper';
-// Utils
+// COMPONENTS
+import BaseText from './BaseText';
+// UTILS
 import { width } from '../utils/constants';
+
+const Container = styled.View`
+  height: 250;
+  width: ${width};
+`;
+
+const ImageSlider = styled.Image`
+  flex: 1;
+  background-color: #9DD6EB;
+`;
+
+const TextCategoria = styled(BaseText)`
+  position: absolute;
+  top: 110;
+  left: 10;
+  right: 15;
+`;
+
+const TextTitolo = styled(BaseText)`
+  position: absolute;
+  top: 130;
+  left: 10;
+  right: 15;
+`;
 
 
 export default class Slider extends Component {    
-
   sliderArticoli() {
     const {data} = this.props;
     return data.map((struttura) => {
       const {id,image,categoria,titolo} = struttura;
       return(
-        <View style={styles.slide1} key={id}>
-          <Image style={{width, height:250}} source={{uri: `${image}`}} />
-          <Text style={styles.cat}>{categoria}</Text>
-          <Text style={styles.text}>{titolo}</Text>
-        </View>
+        <Container key={id}>
+          <ImageSlider source={{uri: `${image}`}} />
+          <TextCategoria color={'red'} size={18} weight={'bold'} >{categoria}</TextCategoria>
+          <TextTitolo color={'#fff'} size={18} weight={'bold'} >{titolo}</TextTitolo>
+        </Container>
       );
     });
   }
 
   render() {
     return (
-      // Slider immagini
-      <View style={styles.containerSlider}>
+      <Container>
         <Swiper horizontal={true} showsPagination={true}> 
           {this.sliderArticoli()}
         </Swiper>
-      </View>
+      </Container>
     );
   }
 }
@@ -42,32 +66,3 @@ Slider.propTypes = {
 Slider.defaultProps = {
   data: []
 }
-
-const styles = StyleSheet.create({
-  containerSlider:{
-    height:250,
-    width
-  },
-  slide1: {
-    flex:1,
-    backgroundColor: '#9DD6EB'
-  },
-  text: {
-    position: 'absolute',
-    top: 130,
-    left: 10,
-    right: 15,
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  cat: {
-    position: 'absolute',
-    top: 110,
-    left: 10,
-    right: 15,
-    color: 'red',
-    fontSize: 18,
-    fontWeight: 'bold',
-    },
-});
