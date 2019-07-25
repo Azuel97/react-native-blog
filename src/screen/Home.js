@@ -110,9 +110,10 @@ export default class Home extends Component {
   }
 
   render() {
-    const { loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli  } = this.state;
+    const { loading, articoliSlider, articoliMercato, articoliCredito, articoliCuriosita, articoloEvidenza, ultimiArticoli } = this.state;
     const { navigation : {navigate} } = this.props;
     const { id, category} = articoloEvidenza
+    
     if(loading){
       return <Spinner />
     }

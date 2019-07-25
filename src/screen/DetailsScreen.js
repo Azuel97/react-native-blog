@@ -7,6 +7,7 @@ import { ArticoliMercatoModel, ArticoliCreditoModel, ArticoliCuriositaModel } fr
 // UTILS
 import { width, height } from '../utils/constants';
 // COMPONENTS
+import Details from '../components/Details';
 import BaseText from '../components/BaseText';
 import BaseImage from '../components/BaseImage';
 import Spinner from '../components/Spinner';
@@ -49,11 +50,7 @@ export default class DetailsScreen extends Component {
       image2: '',
       titolo: '',
       categoriaMer: '',
-      abstract: '',
-      TitleBlocks1: '',
-      TitleBlocks2: '',
-      DescriptionBlocks1: '',
-      DescriptionBlocks2: ''
+      dettaglioArticolo: [],
     }
     this.scrollYAnimatedValue = new Animated.Value(0);
     this.recuperoStruttura = this.recuperoStruttura.bind(this);
@@ -81,14 +78,10 @@ export default class DetailsScreen extends Component {
 
   recuperoStruttura(service, id, categoria){
     this.setState({
+      dettaglioArticolo: service.findDettaglio(id),
       image2: service.findImage2ByID(id),
       titolo: service.findTitoloByID(id),
-      TitleBlocks1: service.findTitleBlocks1ByID(id),
-      TitleBlocks2: service.findTitleBlocks2ByID(id),
-      DescriptionBlocks1: service.findDescriptionBlocks1ByID(id),
-      DescriptionBlocks2: service.findDescriptionBlocks2ByID(id),
-      abstract: service.findabstract2ByID(id),
-      categoriaMer: categoria
+      categoriaMer: categoria,
     });
   }
 
@@ -99,7 +92,7 @@ export default class DetailsScreen extends Component {
       extrapolate: 'clamp'
     });
 
-    const {loading, image2, titolo, categoriaMer, abstract, TitleBlocks1, TitleBlocks2, DescriptionBlocks1, DescriptionBlocks2} = this.state;
+    const {loading, image2, titolo, categoriaMer, dettaglioArticolo} = this.state;
     if(loading){
       return <Spinner />
     }
@@ -112,11 +105,7 @@ export default class DetailsScreen extends Component {
           [{ nativeEvent: { contentOffset: { y: this.scrollYAnimatedValue } } }]
         )} > 
           <ContainerDescrizione>
-            <BaseText weight={'bold'} size={20} paddingTop={5}>{abstract}</BaseText>
-            <BaseText weight={'bold'} paddingTop={20}>{TitleBlocks1}</BaseText>
-            <BaseText paddingTop={15}>{DescriptionBlocks1}</BaseText>
-            <BaseText weight={'bold'} size={18} paddingTop={15}>{TitleBlocks2}</BaseText>
-            <BaseText paddingTop={15}>{DescriptionBlocks2}</BaseText>
+            <Details data={dettaglioArticolo} />
           </ContainerDescrizione>
         </ScrollView>
 
