@@ -17,11 +17,11 @@ const CardImage = styled.Image`
   height: 180;
 `;
 
-const ContainerDescrizione = styled.View`
+const ContainerDescription = styled.View`
   width: 340;
 `;
 
-const ContainerInterno = styled.View`
+const ContainerIntern = styled.View`
   justify-content: space-between;
   flex: 1;
   flex-direction: row;
@@ -32,14 +32,14 @@ const CardGrandi = ({ onPress, image, categoria, publish_date, title, abstract }
     <Container>
       <TouchableOpacity onPress={onPress}>
         <CardImage source={{uri: `${image}`}}/>
-        <ContainerDescrizione>
-          <ContainerInterno>   
+        <ContainerDescription>
+          <ContainerIntern>   
             <BaseText color={'red'} weight={'bold'} paddingTop={5}>{categoria}</BaseText>
             <BaseText color={'grey'} weight={'bold'} paddingTop={5}>{publish_date}</BaseText>
-          </ContainerInterno>
+          </ContainerIntern>
           <BaseText weight={'bold'} size={20} paddingTop={5} numberOfLines={2}>{title}</BaseText>
           <BaseText paddingTop={5} numberOfLines={3}>{abstract}</BaseText>
-        </ContainerDescrizione>
+        </ContainerDescription>
       </TouchableOpacity>
     </Container>
   ); 

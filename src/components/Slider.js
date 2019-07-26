@@ -18,14 +18,14 @@ const ImageSlider = styled.Image`
   background-color: #9DD6EB;
 `;
 
-const TextCategoria = styled(BaseText)`
+const TextCategory = styled(BaseText)`
   position: absolute;
   top: 110;
   left: 10;
   right: 15;
 `;
 
-const TextTitolo = styled(BaseText)`
+const TextTitle = styled(BaseText)`
   position: absolute;
   top: 130;
   left: 10;
@@ -41,8 +41,8 @@ export default class Slider extends Component {
       return(
         <Container key={id}>
           <ImageSlider source={{uri: `${image}`}} />
-          <TextCategoria color={'red'} size={18} weight={'bold'} >{categoria}</TextCategoria>
-          <TextTitolo color={'#fff'} size={18} weight={'bold'} >{titolo}</TextTitolo>
+          <TextCategory color={'red'} size={18} weight={'bold'} >{categoria}</TextCategory>
+          <TextTitle color={'#fff'} size={18} weight={'bold'} >{titolo}</TextTitle>
         </Container>
       );
     });

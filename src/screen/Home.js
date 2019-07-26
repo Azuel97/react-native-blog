@@ -18,16 +18,16 @@ import Spinner from '../components/Spinner';
 import BaseText from '../components/BaseText';
 
 // STYLED COMPONENTS
-const ContainerCategorie = styled.View`
+const ContainerCategory = styled.View`
   padding-top: 25;
 `;
 
-const ContainerUltimi = styled.View`
+const ContainerLastArticles = styled.View`
   padding-top: 40;
   padding-bottom: 55;
 `;
 
-const ContainerEvidenza = styled.View`
+const ContainerEvidence = styled.View`
   margin-left: 17;
 `;
 
@@ -118,28 +118,28 @@ export default class Home extends Component {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <Slider data={articoliSlider} />
-        <ContainerCategorie>
+        <ContainerCategory>
           <TextCategory >Mercato Immobiliare</TextCategory>
           <Scroll data={articoliMercato} />
-        </ContainerCategorie>
-        <ContainerCategorie>
+        </ContainerCategory>
+        <ContainerCategory>
           <TextCategory>Credito</TextCategory>
           <Scroll data={articoliCredito} />
-        </ContainerCategorie>
-        <ContainerCategorie>
+        </ContainerCategory>
+        <ContainerCategory>
           <TextCategory>Curiosità</TextCategory>
           <Scroll data={articoliCuriosita} />
-        </ContainerCategorie>
-        <ContainerCategorie>
+        </ContainerCategory>
+        <ContainerCategory>
           <TextCategory>Articolo In Evidenza</TextCategory>
-          <ContainerEvidenza>
+          <ContainerEvidence>
             <CardEvidenza data={articoloEvidenza} onPress={() => navigate('DetailsScreen',{id, categoria: category})}/>
-          </ContainerEvidenza>
-        </ContainerCategorie>
-        <ContainerUltimi>
+          </ContainerEvidence>
+        </ContainerCategory>
+        <ContainerLastArticles>
           <TextCategory>Gli Ultimi Articoli</TextCategory>
           <Scroll data={ultimiArticoli}  />
-        </ContainerUltimi>
+        </ContainerLastArticles>
       </ScrollView>
     );
   }

@@ -8,12 +8,12 @@ import BaseText from './BaseText';
 import BaseImage from './BaseImage';
 
 // STYLED COMPONENTS
-const ContenitoreCard = styled.View`
+const ContainerCard = styled.View`
   margin-left: 20;
   margin-top: 15;
 `;
 
-const ContenitoreDescrizione = styled.View`
+const ContainerDescription = styled.View`
   width: 160; 
   padding-top: 7;
 `;
@@ -26,14 +26,14 @@ class Scroll extends Component {
       const {id, image, categoria, title, abstract} = struttura;
       return(
         <TouchableOpacity key={id} onPress={() => navigate('DetailsScreen',{id,categoria})}>
-          <ContenitoreCard>
+          <ContainerCard>
             <BaseImage width={160} height={160} radius={3} source={{uri: `${image}`}} />
-            <ContenitoreDescrizione>
+            <ContainerDescription>
               <BaseText color={'red'} weight={'bold'}>{categoria}</BaseText>
               <BaseText weight={'bold'} paddingTop={3} numberOfLines={2}>{title}</BaseText>
               <BaseText size={14} numberOfLines={3} >{abstract}</BaseText>
-            </ContenitoreDescrizione>
-          </ContenitoreCard>
+            </ContainerDescription>
+          </ContainerCard>
         </TouchableOpacity>
       );
     });

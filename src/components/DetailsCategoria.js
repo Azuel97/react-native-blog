@@ -9,14 +9,14 @@ import BaseImage from './BaseImage';
 import { width } from '../utils/constants';
 
 // STYLED COMPONENTS
-const TextCategoria = styled(BaseText)`
+const TextCategory = styled(BaseText)`
   position: absolute;
   top: 95;
   left: 10;
   right: 15;
 `;
 
-const TextTitolo = styled(BaseText)`
+const TextTitle = styled(BaseText)`
   position: absolute;
   top: 130;
   left: 10;
@@ -30,8 +30,8 @@ const DetailsCategoria = ({ data }) => {
     return(
         <View key={id}>
           <BaseImage  width={width} height={200} source={{uri: `${image}`}} />
-          <TextCategoria size={26} weight={'bold'} color={'#fff'}>{title}</TextCategoria>
-          <TextTitolo color={'#fff'} weight={'bold'} >{abstract}</TextTitolo>
+          <TextCategory size={26} weight={'bold'} color={'#fff'}>{title}</TextCategory>
+          <TextTitle color={'#fff'} weight={'bold'} >{abstract}</TextTitle>
         </View>
     );
   });

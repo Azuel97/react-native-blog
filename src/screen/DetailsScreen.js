@@ -13,13 +13,13 @@ import BaseImage from '../components/BaseImage';
 import Spinner from '../components/Spinner';
 
 // STYLED COMPONENTS
-const CategoriaImage = styled(BaseText)`
+const CategoryImage = styled(BaseText)`
   position: absolute;
   top: 45;
   left: 20;
 `;
 
-const TitoloImage = styled(BaseText)`
+const TitleImage = styled(BaseText)`
   position: absolute;
   top: 65;
   left: 20;
@@ -31,7 +31,7 @@ const Container = styled.View`
   margin-bottom: 30;
 `;
 
-const ContainerDescrizione = styled.View`
+const ContainerDescription = styled.View`
   padding-left: 15;
   padding-right: 15;
   padding-top: 20;
@@ -104,15 +104,15 @@ export default class DetailsScreen extends Component {
           onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this.scrollYAnimatedValue } } }]
         )} > 
-          <ContainerDescrizione>
+          <ContainerDescription>
             <Details data={dettaglioArticolo} />
-          </ContainerDescrizione>
+          </ContainerDescription>
         </ScrollView>
 
         <Animated.View style={[styles.animatedHeaderContainer, { height: headerHeight }]}>
-            <BaseImage width={width} height={HEADER_MAX_HEIGHT} radius={8} source={{uri: `${image2}`}}/>
-            <CategoriaImage weight={'bold'} color={'red'}>{categoriaMer}</CategoriaImage>
-            <TitoloImage weight={'bold'} size={18} color={'white'} paddingRight={30}>{titolo}</TitoloImage>
+          <BaseImage width={width} height={HEADER_MAX_HEIGHT} radius={8} source={{uri: `${image2}`}}/>
+          <CategoryImage weight={'bold'} color={'red'}>{categoriaMer}</CategoryImage>
+          <TitleImage weight={'bold'} size={18} color={'white'} paddingRight={30}>{titolo}</TitleImage>
         </Animated.View>      
 
       </Container>
