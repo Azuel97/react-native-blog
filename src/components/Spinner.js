@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+// STYLED COMPONENTS
 const StyledSpinner = styled.ActivityIndicator`
   flex: 1;
   justify-content: center;

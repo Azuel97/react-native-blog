@@ -12,25 +12,9 @@ import ReactNativePickerModule from 'react-native-picker-module';
 import CardGrandi from '../components/CardGrandi';
 import Spinner from '../components/Spinner';
 import BaseText from '../components/BaseText';
-import BaseImage from '../components/BaseImage';
-// UTILS
-import { width } from '../utils/constants';
+import DetailsCategoria from '../components/DetailsCategoria';
 
 // STYLED COMPONENTS
-const TextCategoria = styled(BaseText)`
-  position: absolute;
-  top: 95;
-  left: 10;
-  right: 15;
-`;
-
-const TextTitolo = styled(BaseText)`
-  position: absolute;
-  top: 130;
-  left: 10;
-  right: 15;
-`;
-
 const Container = styled.View`
   flex: 1;
 `;
@@ -57,9 +41,8 @@ export default class Categorie extends Component {
     super(props);
     this.state = {
       loading: true,
-      image1: '',
+      dettaglioCategoria: [],
       categoria1: '',
-      titolo1: '',
       Id: '',
       titolo: '',
       descrizione: '',
@@ -102,23 +85,22 @@ export default class Categorie extends Component {
     }
   }
 
-  impostaStruttura(service,category) {
+  impostaStruttura(service, category) {
     // Recupero le date di pubblicazione degli articoli
     var dateTrovate = service.findDatePubblicazione();
     // Recupero gli articoli
     var articoli = service.findArticoli();
     // Aggiorno gli state
     this.setState({
-      image1: CategorieController.findImageByName(category),
+      dettaglioCategoria: CategorieController.findDettaglio(category),
       categoria1: CategorieController.findCategoriaByName(category),
-      titolo1: CategorieController.findTitoloByName(category),
       data: dateTrovate,
       articoliTrovati: articoli,
       loading: false
     });
   }
 
-  filtroDataArticoli(value,service){
+  filtroDataArticoli(value, service){
     // Recupero gli articoli a seconda della data che gli viene passato
     var articoli = service.findArticoliPerData(value);
     // Controllo per la manipolazione degli articoli su base della data di pubblicazione
@@ -130,10 +112,11 @@ export default class Categorie extends Component {
     });
   }
 
-  renderListItem(item,categoria1) {
+  renderListItem(item, categoria1) {
     const {publish_date, title, abstract, image, id } = item;
+    const { navigation : {navigate} } = this.props;
     return (
-      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={categoria1} onPress={() => this.props.navigation.navigate('DetailsScreen', {
+      <CardGrandi publish_date={publish_date} title={title} abstract={abstract} image={image} categoria={categoria1} onPress={() => navigate('DetailsScreen', {
         id,
         categoria: categoria1 })} 
       />
@@ -141,15 +124,13 @@ export default class Categorie extends Component {
   }
   
   render() {
-    const {loading, data, selectedValue, articoliTrovati,image1, categoria1, titolo1} = this.state;
+    const {loading, data, selectedValue, articoliTrovati, dettaglioCategoria, categoria1} = this.state;
     if(loading){
       return <Spinner />
     }
     return (
       <Container>
-        <BaseImage  width={width} height={200} source={{uri: `${image1}`}} />
-        <TextCategoria size={26} weight={'bold'} color={'#fff'}>{categoria1}</TextCategoria>
-        <TextTitolo color={'#fff'} weight={'bold'} >{titolo1}</TextTitolo>
+       <DetailsCategoria data={dettaglioCategoria} />
             
         <ContainerPicker>
           <TouchableOpacity style={{width:170,height:40}} onPress={() => {this.pickerRef.show()}}>

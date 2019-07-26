@@ -63,7 +63,18 @@ const CategorieController = {
         for(let p of categoria){
             return p.title
         }
-    }
+    },
+
+    // Recupero in dettaglio tutto l'articolo
+    findDettaglio: function(name){
+        articolo = repository.objects('Categorie').filtered('title == $0',name)
+        idTrovati = []
+        for(let p of articolo){
+            // Creo un oggetto che contiene i campi che mi interessano
+            idTrovati.push({id: p.id,title: p.title,abstract: p.abstract,image: p.image})
+        }
+        return idTrovati
+    },
 
 };
 

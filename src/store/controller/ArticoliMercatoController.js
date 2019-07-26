@@ -25,66 +25,10 @@ const ArticoliMercatoController = {
         }
     },
 
-    findImageByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.image
-        }
-    },
-
     findImage2ByID: function(id) {
         articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
         for(let p of articolo){
             return p.image2
-        }
-    },
-
-    findAbstractByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.abstract
-        }
-    },
-
-    findPublishDateByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.publish_date
-        }
-    },
-
-    findTitleBlocks1ByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.TitleBlocks1
-        }
-    },
-
-    findDescriptionBlocks1ByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.DescriptionBlocks1
-        }
-    },
-
-    findabstract2ByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.abstract2
-        }
-    },
-
-    findTitleBlocks2ByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.TitleBlocks2
-        }
-    },
-
-    findDescriptionBlocks2ByID: function(id) {
-        articolo = repository.objects('ArticoliMercato').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.DescriptionBlocks2
         }
     },
 

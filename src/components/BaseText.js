@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+// STYLED COMPONENTS
 const StyledText = styled.Text`
   font-size: ${props => `${props.size}px`};
   color: ${props => props.color};

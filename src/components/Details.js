@@ -11,11 +11,11 @@ const Details = ({ data }) => {
     const {id, abstract, TitleBlocks1, DescriptionBlocks1, TitleBlocks2, DescriptionBlocks2 } = struttura;
     return(
         <View key={id}>
-            <BaseText weight={'bold'} size={20} paddingTop={5}>{abstract}</BaseText>
-            <BaseText weight={'bold'} paddingTop={20}>{TitleBlocks1}</BaseText>
-            <BaseText paddingTop={15}>{DescriptionBlocks1}</BaseText>
-            <BaseText weight={'bold'} size={18} paddingTop={15}>{TitleBlocks2}</BaseText>
-            <BaseText paddingTop={15}>{DescriptionBlocks2}</BaseText>
+          <BaseText weight={'bold'} size={20} paddingTop={5}>{abstract}</BaseText>
+          <BaseText weight={'bold'} paddingTop={20}>{TitleBlocks1}</BaseText>
+          <BaseText paddingTop={15}>{DescriptionBlocks1}</BaseText>
+          <BaseText weight={'bold'} size={18} paddingTop={15}>{TitleBlocks2}</BaseText>
+          <BaseText paddingTop={15}>{DescriptionBlocks2}</BaseText>
         </View>
     );
   });
@@ -29,4 +29,4 @@ Details.defaultProps = {
   data: [],
 }
 
-export default (Details);
+export default Details;

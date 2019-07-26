@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // COMPONENTS
 import BaseText from './BaseText';
 
+// STYLED COMPONENTS
 const Container = styled.View`
   margin-left: 17;
   margin-top: 15;
@@ -62,4 +63,4 @@ CardGrandi.defaultProps = {
   onPress: () => {},
 }
 
-export default (CardGrandi);
+export default CardGrandi;

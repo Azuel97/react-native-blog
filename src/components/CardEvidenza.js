@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 // COMPONENTS
 import BaseText from './BaseText';
 
+// STYLED COMPONENTS
 const CardImage = styled.Image`
   width: 340px;
   height: 180px;
@@ -42,4 +43,4 @@ CardEvidenza.defaultProps = {
   onPress: () => {},
 }
 
-export default (CardEvidenza);
+export default CardEvidenza;

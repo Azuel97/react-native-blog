@@ -25,59 +25,10 @@ const ArticoliCuriositaController = {
         }
     },
 
-    findImageByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.image
-        }
-    },
-
-    findAbstractByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.abstract
-        }
-    },
-
     findImage2ByID: function(id) {
         articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
         for(let p of articolo){
             return p.image2
-        }
-    },
-
-    findTitleBlocks1ByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.TitleBlocks1
-        }
-    },
-
-    findDescriptionBlocks1ByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.DescriptionBlocks1
-        }
-    },
-
-    findabstract2ByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.abstract2
-        }
-    },
-
-    findTitleBlocks2ByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.TitleBlocks2
-        }
-    },
-
-    findDescriptionBlocks2ByID: function(id) {
-        articolo = repository.objects('ArticoliCuriosita').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.DescriptionBlocks2
         }
     },
 

@@ -37,8 +37,6 @@ const TextCategory = styled(BaseText)`
   padding-left: 10;
 `;
 
-// Disabilito l'uscita dei messaggi di warning
-console.disableYellowBox = true;
 
 export default class Home extends Component {
 

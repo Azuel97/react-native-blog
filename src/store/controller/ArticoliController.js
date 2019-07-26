@@ -22,28 +22,6 @@ const ArticoliController = {
         return true;
     },
 
-    // Recupero i campi in base al loro ID
-    findTitoloByID: function(id) {
-        articolo = repository.objects('ArticoliSlider').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.titolo
-        }
-    },
-
-    findImageByID: function(id) {
-        articolo = repository.objects('ArticoliSlider').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.image
-        }
-    },
-
-    findCategoriaByID: function(id) {
-        articolo = repository.objects('ArticoliSlider').filtered('id == $0',id) 
-        for(let p of articolo){
-            return p.categoria
-        }
-    },
-
     // Recupero gli articoli per lo slider
     findLastTreArticoli: function() {
         articolo = repository.objects('ArticoliSlider')
